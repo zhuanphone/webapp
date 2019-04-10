@@ -25,3 +25,8 @@ export const SET_BUY_QUANTITY = 'SET_BUY_QUANTITY';
 export const SET_BUY_EDIT_STATUS = 'SET_BUY_EDIT_STATUS';
 
 export const DEL_CART_GOOD = 'DEL_CART_GOOD';
+
+// 购物车
+export const ADD_TO_CART = 'ADD_TO_CART'
+
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'

@@ -45,6 +45,8 @@ export default class Footer extends Vue {
       font-size: 24px;
       color: #333;
       padding: 10px 0;
+      display: inline-block;
+      width: 50%;
 
       svg {
         font-size: 38px;

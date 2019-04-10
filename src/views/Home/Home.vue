@@ -1,14 +1,14 @@
 <template>
   <div class="home">
-    <BannerSwiper :data="banners" />
-    <QuickLinkNav :data="quicknavlist" />
-    <CustomColumn :data="customs" />
+    <!-- <BannerSwiper :data="banners" /> -->
+    <!-- <QuickLinkNav :data="quicknavlist" /> -->
+    <!-- <CustomColumn :data="customs" /> -->
 
     <div class="guess-like-wrap">
       <p class="guess-title">
-        <span class="guess-layout">猜你喜欢</span>
+        <span class="guess-layout">二手手机卖场</span>
       </p>
-      <GoodList :data="goodslist" />
+      <GoodsList :data="goodsList" />
     </div>
 
     <!-- <Footer :data="navs" /> -->
@@ -20,7 +20,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 
 import Footer from '@/components/Footer.vue';
-import GoodList from '@/components/GoodList.vue';
+import GoodsList from '@/components/GoodsList.vue';
 import BannerSwiper from './components/BannerSwiper.vue';
 import QuickLinkNav from './components/QuickLinkNav.vue';
 import CustomColumn from './components/CustomColumn.vue';
@@ -31,7 +31,7 @@ import state from '@/store/state';
 @Component({
   components: {
     Footer,
-    GoodList,
+    GoodsList,
     BannerSwiper,
     QuickLinkNav,
     CustomColumn,
@@ -50,8 +50,8 @@ export default class Home extends Vue {
   @State(state => state.shop.customs)
   customs!: StoreState.Customs[];
 
-  @State(state => state.shop.goodslist)
-  goodslist!: StoreState.Goods[];
+  @State(state => state.shop.goodsList)
+  goodsList!: StoreState.Goods[];
 
   @Action('shop/initAjaxShop')
   initAjaxShop: any;
@@ -64,7 +64,6 @@ export default class Home extends Vue {
   mounted() {}
 }
 </script>
-
 
 <style lang="scss" scoped>
 .column-title {

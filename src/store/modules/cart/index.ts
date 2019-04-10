@@ -9,11 +9,26 @@ import Vue from 'vue';
 const isEveryRight = (arr: any, fn: any) =>
   arr.map(fn).every((val: boolean) => val);
 
-const state = {
-  cartInfo: {},
+interface cartState {
+  cartList: StoreState.Goods[]
+}
+
+const state: cartState = {
+  cartList: []
 };
 
 const mutations: MutationTree<any> = {
+  // 添加商品到购物车
+  [TYPES.ADD_TO_CART](state, data): void {
+    state.cartList.push(data)
+  },
+
+  // 从购物车中移除一个商品
+  [TYPES.REMOVE_FROM_CART](state, index): void {
+    state.cartList.splice(index, 1)
+  },
+
+
   [TYPES.SET_CARTLIST](state, data): void {
     state.cartInfo = data;
   },
@@ -115,6 +130,12 @@ const mutations: MutationTree<any> = {
 };
 
 const actions: ActionTree<any, any> = {
+
+  // 添加商品到购物车
+  addToCart({ commit }, good) {
+    console.log('add to cart: ', good)
+    commit(TYPES.ADD_TO_CART, good)
+  },
   // 获取购物车列表
   async getCartList({ commit }) {
     const res: Ajax.AjaxResponse = await queryCartList();
@@ -159,6 +180,10 @@ const actions: ActionTree<any, any> = {
 };
 
 const getters: GetterTree<any, any> = {
+  cartGoodsCount(state) {
+    return state.cartList.length
+  },
+
   cartInfo: state => state.cartInfo,
 
   payInfo(state) {

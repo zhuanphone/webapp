@@ -1,27 +1,24 @@
 import { MutationTree, ActionTree } from 'vuex';
 import * as TYPES from '../mutation-types';
 import {
-  queryBannerList,
-  queryCustomsList,
   queryGoodsList,
-  queryQuickNavList,
-  queryGoodsInfo,
+  queryGoodInfo,
 } from '@/api/shop';
 
 interface ShopState {
   banners: StoreState.Banners[];
   customs: StoreState.Customs[];
-  goodslist: StoreState.Goods[];
+  goodsList: StoreState.Goods[];
   quicknavlist: StoreState.QuickNav[];
-  goodsinfo: any[];
+  goodInfo: {}
 }
 
 export const state: ShopState = {
   banners: [],
   customs: [],
-  goodslist: [],
+  goodsList: [],
   quicknavlist: [],
-  goodsinfo: [],
+  goodInfo: {}
 };
 
 const mutations: MutationTree<any> = {
@@ -37,54 +34,49 @@ const mutations: MutationTree<any> = {
     state.customs = customs;
   },
 
-  [TYPES.SET_GOODSLIST](state, goodslist) {
-    state.goodslist = goodslist;
+  [TYPES.SET_GOODSLIST](state, list) {
+    state.goodsList = list;
   },
 
   [TYPES.SET_GOODSINFO](state, data) {
-    state.goodsinfo = data;
+    state.goodInfo = data;
   },
 };
 
 const actions: ActionTree<any, any> = {
   // 初始化首页数据
   async initAjaxShop({ dispatch }) {
-    dispatch('getBanners');
-    dispatch('getQuickNavList');
-    dispatch('getCustoms');
-    dispatch('getGoodsList');
+    // dispatch('getBanners');
+    // dispatch('getQuickNavList');
+    // dispatch('getCustoms');
+    // dispatch('getGoodsList');
+    dispatch('getGoodsList')
   },
 
-  // 获取轮播
-  async getBanners({ commit }) {
-    const res: Ajax.AjaxResponse = await queryBannerList();
-    if (res && res.code === 200) commit(TYPES.SET_BANNERS, res.data.list || []);
-  },
-
-  // 获取自定义
-  async getCustoms({ commit }) {
-    const res: Ajax.AjaxResponse = await queryCustomsList();
-    if (res && res.code === 200) commit(TYPES.SET_CUSTOMS, res.data.list || []);
-  },
 
   // 获取猜你喜欢商品列表
+
   async getGoodsList({ commit }) {
-    const res: Ajax.AjaxResponse = await queryGoodsList();
-    if (res && res.code === 200)
-      commit(TYPES.SET_GOODSLIST, res.data.list || []);
+    const res = await queryGoodsList()
+
+    if (res && res.status === 200) {
+      commit(TYPES.SET_GOODSLIST, res.result.list || [])
+    }
   },
 
   // 获取快链导航
-  async getQuickNavList({ commit }) {
-    const res: Ajax.AjaxResponse = await queryQuickNavList();
-    if (res && res.code === 200)
-      commit(TYPES.SET_QUICKNAV, res.data.list || []);
-  },
+  // async getQuickNavList({ commit }) {
+  //   const res: Ajax.AjaxResponse = await queryQuickNavList();
+  //   if (res && res.code === 200)
+  //     commit(TYPES.SET_QUICKNAV, res.data.list || []);
+  // },
 
   async getGoodsInfo({ commit }, id) {
-    const res: Ajax.AjaxResponse = await queryGoodsInfo(id);
-    if (res && res.code === 200) commit(TYPES.SET_GOODSINFO, res.data || {});
+    const res = await queryGoodInfo(id)
+    console.log('res ====>', res)
+    if (res && res.status === 200) commit(TYPES.SET_GOODSINFO, res.result || {})
   },
+
 };
 
 export default {

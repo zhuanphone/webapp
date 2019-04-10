@@ -4,7 +4,7 @@
     <div :class="[isFullScreen ? 'siema-wrapper' : '', 'goods-swiper']">
       <swiper :options="swiperOption">
         <!-- slides -->
-        <swiper-slide v-for="item in goodsInfo.product_imgs" :key="item.id">
+        <swiper-slide v-for="item in goodInfo.imgs" :key="item.uid">
           <div class="img-wrapper">
             <img :src="item.url" @click.prevent="openGoodsSwiper" />
           </div>
@@ -16,33 +16,57 @@
 
     <!-- 价格 -->
     <div class="goods-price">
-      <p class="goods-sales-price">¥
-        <em>{{ goodsInfo.price }}</em>
+      <p class="goods-sales-price">
+        ¥
+        <em>{{ goodInfo.purchasePrice }}</em>
       </p>
-      <p class="goods-original-price">价格
-        <del>{{ goodsInfo.shop_price }}</del>
+      <p class="goods-original-price">
+        价格
+        <del>{{ goodInfo.originPrice }}</del>
       </p>
     </div>
 
     <!-- 价格 -->
     <div class="goods-name">
       <p class="goods-name-text">
-        {{ goodsInfo.name }}
+        {{ goodInfo.name }}
       </p>
-      <p class="goods-share"></p>
+      <p class="goods-sales">总销{{ 2 }}笔</p>
     </div>
 
     <!-- 其他信息 -->
-    <div class="goods-text">
-      <p class="goods-express">快递：{{ goodsInfo.express }}</p>
-      <p class="goods-sales">总销{{ goodsInfo.sale_num }}笔</p>
-      <p class="goods-evaluation">评价{{ goodsInfo.evaluate }}条</p>
-    </div>
+    <!-- <div class="goods-text">
+      <p class="goods-express">快递：{{ 1 }}</p>
+      <p class="goods-sales">总销{{ 2 }}笔</p>
+      <p class="goods-evaluation">评价{{ 3 }}条</p>
+    </div> -->
 
     <div class="goods-gary"></div>
 
+    <div class="goods-detail-desc">
+      <p class="detail-desc-title">
+        <span>详情</span>
+      </p>
+      <div class="detail-desc-body" v-html="goodInfo.desc"></div>
+    </div>
+    <div class="bottom-bar">
+      <div class="btn-shop" @click="goToChartPage()">
+        <span class="taobao-iconfont icon-highlight">삍</span>
+        <span class="btn-text">购物车</span>
+        <i>{{ cartGoodsCount }}</i>
+      </div>
+      <div class="bottom-bar-btn cart">
+        <span class="btn-title" @click="handleAddToCart(goodInfo)"
+          >加入购物车</span
+        >
+      </div>
+      <div class="bottom-bar-btn buy">
+        <span class="btn-title">立即购买</span>
+      </div>
+    </div>
+
     <!-- 规格 -->
-    <div class="goods-cell" @click="popupSkuVisible = true">
+    <!-- <div class="goods-cell" @click="popupSkuVisible = true">
       <div class="goods-cell-title">
         <p>规格</p>
       </div>
@@ -52,10 +76,10 @@
       <div class="goods-cell-icon">
         <p>></p>
       </div>
-    </div>
+    </div> -->
 
     <!-- 参数 -->
-    <div class="goods-cell" @click="popupProductVisible = true">
+    <!-- <div class="goods-cell" @click="popupProductVisible = true">
       <div class="goods-cell-title">
         <p>参数</p>
       </div>
@@ -67,27 +91,27 @@
       </div>
     </div>
 
-    <div class="goods-gary"></div>
+    <div class="goods-gary"></div> -->
 
     <!-- 店铺 -->
-    <div class="goods-shop" v-if="goodsInfo.shop">
+    <!-- <div class="goods-shop" v-if="goodInfo.shop">
       <div class="goods-shop-name">
-        <img class="shop-logo" :src="goodsInfo.shop.logo">
-        <p class="shop-name ellipsis">{{ goodsInfo.shop.name }}</p>
+        <img class="shop-logo" :src="goodInfo.shop.logo">
+        <p class="shop-name ellipsis">{{ goodInfo.shop.name }}</p>
       </div>
 
       <div class="goods-shop-evaluation">
         <p class="gs-desc">商品描述：
-          <span>{{ goodsInfo.shop.descScore }}</span>
-          <span>{{ getGrade(goodsInfo.shop.descScore) }}</span>
+          <span>{{ goodInfo.shop.descScore }}</span>
+          <span>{{ getGrade(goodInfo.shop.descScore) }}</span>
         </p>
         <p class="gs-sales">卖家服务：
-          <span>{{ goodsInfo.shop.serviceScore }}</span>
-          <span>{{ getGrade(goodsInfo.shop.serviceScore) }}</span>
+          <span>{{ goodInfo.shop.serviceScore }}</span>
+          <span>{{ getGrade(goodInfo.shop.serviceScore) }}</span>
         </p>
         <p class="gs-express">物流服务：
-          <span>{{ goodsInfo.shop.expressScore }}</span>
-          <span>{{ getGrade(goodsInfo.shop.expressScore) }}</span>
+          <span>{{ goodInfo.shop.expressScore }}</span>
+          <span>{{ getGrade(goodInfo.shop.expressScore) }}</span>
         </p>
       </div>
 
@@ -95,14 +119,14 @@
         <button>关注店铺</button>
         <button>进入店铺</button>
       </div>
-    </div>
+    </div> -->
 
     <!-- 详情 -->
-    <div class="goods-detail-desc">
+    <!-- <div class="goods-detail-desc">
       <p class="detail-desc-title">
         <span>详情</span>
       </p>
-      <div class="detail-desc-body" v-html="goodsInfo.body"></div>
+      <div class="detail-desc-body" v-html="goodInfo.body"></div>
     </div>
 
     <div class="bottom-bar">
@@ -124,9 +148,9 @@
       <div class="bottom-bar-btn buy">
         <span class="btn-title" @click="popupSkuVisible = true">立即购买</span>
       </div>
-    </div>
+    </div> -->
 
-    <mt-popup v-model="popupSkuVisible" position="bottom" class="mint-popup">
+    <!-- <mt-popup v-model="popupSkuVisible" position="bottom" class="mint-popup">
       <div class="dialog">
         <div class="dialog-content">
           <div class="dialog-xsku">
@@ -177,7 +201,8 @@
                 </div>
                 <div class="quantity-info">
                   <div class="sku-quantity">
-                    <h2>购买数量
+                    <h2>
+                      购买数量
                       <span></span>
                     </h2>
                     <p class="btn-minus off">
@@ -199,15 +224,22 @@
           </div>
         </div>
       </div>
-    </mt-popup>
+    </mt-popup> -->
 
-    <mt-popup v-model="popupProductVisible" position="bottom" class="mint-popup">
+    <mt-popup
+      v-model="popupProductVisible"
+      position="bottom"
+      class="mint-popup"
+    >
       <div class="dialog">
         <div class="dialog-title ">产品参数</div>
         <div class="dialog-content">
           <div class="dialog-product-params">
             <ul class="product-param-list">
-              <li v-for="info in goodsInfo.product_extra_infos" :key="info.product_id">
+              <li
+                v-for="info in goodInfo.product_extra_infos"
+                :key="info.product_id"
+              >
                 <div class="param-name">{{ info.field_name }}</div>
                 <div class="param-value">{{ info.field_value }}</div>
               </li>
@@ -216,7 +248,9 @@
         </div>
 
         <div class="dialog-button-group">
-          <button class="btn-close" @click="popupProductVisible = false">完成</button>
+          <button class="btn-close" @click="popupProductVisible = false">
+            完成
+          </button>
         </div>
       </div>
     </mt-popup>
@@ -225,7 +259,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { State, Action } from 'vuex-class';
+import { State, Action, Getter } from 'vuex-class';
 
 import 'mint-ui/lib/popup/style.css';
 import { Popup } from 'mint-ui';
@@ -257,11 +291,14 @@ export default class Detail extends Vue {
     preventLinksPropagation: true,
   };
 
-  @State(state => state.shop.goodsinfo)
-  private goodsInfo!: any;
+  @State(state => state.shop.goodInfo)
+  private goodInfo!: object;
 
   @Action('shop/getGoodsInfo')
   getGoodsInfo: any;
+
+  @Getter('cartGoodsCount', { namespace: 'cart' })
+  cartGoodsCount: any;
 
   created() {
     window.scroll(0, 0);
@@ -287,6 +324,18 @@ export default class Detail extends Vue {
     this.isFullScreen
       ? document.body.classList.add('full-screen')
       : document.body.classList.remove('full-screen');
+  }
+
+  @Action('cart/addToCart')
+  addToCart: any;
+
+  handleAddToCart(goodInfo: StoreState.Goods) {
+    this.addToCart(goodInfo);
+    this.popupProductVisible = true;
+  }
+
+  goToChartPage() {
+    this.$router.push('/cart');
   }
 }
 </script>
@@ -349,8 +398,6 @@ export default class Detail extends Vue {
   }
 }
 </style>
-
-
 <style lang="scss" scoped>
 .goods-swiper {
   overflow: hidden;
@@ -369,6 +416,7 @@ export default class Detail extends Vue {
 }
 
 .buy-goods-wrap {
+  height: calc(100% + 500px);
   .goods-gary {
     display: flex;
     overflow: hidden;
@@ -404,6 +452,7 @@ export default class Detail extends Vue {
 
   .goods-name {
     display: flex;
+    justify-content: space-between;
     overflow: hidden;
     position: relative;
     padding: 20px 20px;
@@ -510,6 +559,7 @@ export default class Detail extends Vue {
 
 .goods-detail-desc {
   overflow: hidden;
+
   .detail-desc-title {
     position: relative;
     display: -webkit-box;
@@ -541,6 +591,10 @@ export default class Detail extends Vue {
 
   .detail-desc-body {
     overflow: hidden;
+    text-indent: 20px;
+    letter-spacing: 1px;
+    padding: 20px;
+    line-height: 40px;
     img {
       display: block;
       max-width: 100%;
@@ -582,9 +636,27 @@ export default class Detail extends Vue {
   -webkit-box-align: center;
   -webkit-align-items: center;
   align-items: center;
+  justify-content: space-between;
   background-color: #fff;
   padding-right: 15px;
 
+  .btn-shop {
+    position: relative;
+    i {
+      position: absolute;
+      top: 10px;
+      right: 4px;
+      display: block;
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      text-align: center;
+      line-height: 30px;
+      background: #fe560a;
+      color: white;
+      font-style: normal;
+    }
+  }
   > div {
     display: flex;
     -webkit-box-orient: vertical;
@@ -606,7 +678,7 @@ export default class Detail extends Vue {
   }
 
   .bottom-bar-btn {
-    width: 50%;
+    width: 40%;
     height: 80px;
     bottom: 24px;
     line-height: 80px;

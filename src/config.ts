@@ -6,12 +6,12 @@ export default {
       name: '首页',
       path: '/',
     },
-    {
-      id: 2,
-      icon: 'categrory',
-      name: '分类',
-      path: '/category',
-    },
+    // {
+    //   id: 2,
+    //   icon: 'categrory',
+    //   name: '分类',
+    //   path: '/category',
+    // },
     {
       id: 3,
       icon: 'cart',
@@ -28,7 +28,8 @@ export default {
   url: {
     basicUrl:
       process.env.NODE_ENV === 'development'
-        ? 'https://www.easy-mock.com/mock/5b5546f9bd75883013956f56/ego'
+        ? 'http://localhost:5000/api/v1'
+        // ? 'http://172.18.3.216:5000/api/v1'
         : '',
   },
 };

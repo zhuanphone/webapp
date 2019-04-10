@@ -25,11 +25,21 @@ declare namespace StoreState {
 
   // 商品类型
   export interface Goods {
-    id: string;
-    title: string;
+    _id: string;
+    brand: string;
+    name: string;
     desc: string;
-    src: string;
-    price: number;
+    coverImg: string;
+    originPrice: number;
+    purchasePrice: number;
+    onShelve: GoodsStatus;
+    saleCount: number;
+  }
+
+  export enum GoodsStatus {
+    WILLSHELVES = 'WILLSHELVES',
+    ONSHELVES = 'ONSHELVES',
+    OBTAINED = 'OBTAINED'
   }
 
   // 快链导航
@@ -39,5 +49,5 @@ declare namespace StoreState {
     icon: string;
   }
 
-  export interface GoodsInfo {}
+  export interface GoodsInfo { }
 }
