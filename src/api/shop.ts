@@ -17,9 +17,9 @@ export function queryGoodsInfo(id: string) {
 }
 
 export function queryGoodsList() {
-  return $axios.get('/commodities/list')
+  return $axios.get('/goods/list')
 }
 
 export function queryGoodInfo(id: string) {
-  return $axios.get(`/commodities/read/${id}`)
+  return $axios.get(`/goods/read/${id}`)
 }

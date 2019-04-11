@@ -11,49 +11,22 @@
         <div
           class="cart-group"
           v-if="goods.length > 0"
-          v-for="(goods, key) in cartInfo.gorups"
+          v-for="(goods, key) in cartList"
           :key="key"
         >
-          <div class="shop-item border-bottom">
-            <div class="shopcb">
-              <p @click="selectShop(cartInfo.shops[key])">
-                <icon
-                  name="checkbox-right"
-                  v-if="cartInfo.shops[key].fields.checked === true"
-                ></icon>
-                <icon name="checkbox" v-else></icon>
-              </p>
-            </div>
-            <div class="shopicon">
-              <icon name="shop"></icon>
-            </div>
-            <div class="contact">
-              <a href="">{{ cartInfo.shops[key].fields.title }} ></a>
-            </div>
-            <div class="state">
-              <p @click="editBuyEditStatus(key)">
-                <span v-if="cartInfo.shops[key].fields.is11">完成</span>
-                <span v-else>编辑</span>
-              </p>
-            </div>
-          </div>
-
-          <!-- single good -->
+          <!-- 购物车商品列表 -->
           <div
-            v-if="cartInfo.goods"
+            v-if="cartList"
             class="cart-item"
-            v-for="item in goods"
+            v-for="item in cartList"
             :key="item"
           >
-            <div
-              class="cart-item-box"
-              :class="{ 'act-edit': cartInfo.shops[key].fields.is11 }"
-            >
+            <div class="cart-item-box">
               <div class="item-cb">
-                <p @click="selectGood(cartInfo.goods[item])">
+                <p @click="selectGood(item)">
                   <icon
                     name="checkbox-right"
-                    v-if="cartInfo.goods[item].fields.checked === true"
+                    v-if="item.checked === true"
                   ></icon>
                   <icon name="checkbox" v-else></icon>
                 </p>
@@ -63,30 +36,22 @@
                 <div>
                   <div class="item-img">
                     <a>
-                      <img :src="cartInfo.goods[item].fields.pic" />
+                      <img :src="item.imgs[0].url" />
                     </a>
                   </div>
 
                   <div class="item-info">
                     <a href="">
                       <h3 class="title">
-                        {{ cartInfo.goods[item].fields.title }}
+                        {{ item.name }}
                       </h3>
-                      <div class="edit-sku">
-                        <div>
-                          {{ cartInfo.goods[item].fields.sku.title }}
-                          <icon name="arrow-down"></icon>
-                        </div>
-                      </div>
                     </a>
 
                     <div class="pay">
                       <div class="pay-price">
                         <div class="price">
                           <p class="o-t-price">
-                            <span class="major">{{
-                              cartInfo.goods[item].fields.pay.now | filterPrice
-                            }}</span>
+                            <span class="major">{{ item.originPrice }}</span>
                           </p>
                         </div>
                       </div>
@@ -94,9 +59,7 @@
                       <div class="edit-quantity">
                         <p
                           class="btn-minus"
-                          @click.prevent="
-                            actionBuyQuantity(cartInfo.goods[item], 'minus')
-                          "
+                          @click.prevent="actionBuyQuantity(item, 'minus')"
                         >
                           <a class="sbtn minus off">
                             <icon name="minus"></icon>
@@ -105,21 +68,13 @@
                         <p class="btn-input">
                           <input
                             type="number"
-                            v-model.number="
-                              cartInfo.goods[item].fields.quantity.quantity
-                            "
-                            :min="cartInfo.goods[item].fields.quantity.min"
-                            :max="cartInfo.goods[item].fields.quantity.max"
-                            @blur="
-                              actionBuyQuantity(cartInfo.goods[item], 'input')
-                            "
+                            v-model.number="item.quantity"
+                            @blur="actionBuyQuantity(item, 'input')"
                           />
                         </p>
                         <p
                           class="btn-plus"
-                          @click.prevent="
-                            actionBuyQuantity(cartInfo.goods[item], 'plus')
-                          "
+                          @click.prevent="actionBuyQuantity(item, 'plus')"
                         >
                           <a class="sbtn plus">
                             <icon name="plus"></icon>
@@ -132,11 +87,7 @@
               </div>
             </div>
 
-            <div
-              class="cart-item-del"
-              :class="{ 'act-del': cartInfo.shops[key].fields.is11 }"
-              @click="delCartGood(cartInfo.goods[item])"
-            >
+            <div class="cart-item-del" @click="delCartGood(item)">
               <div>删除</div>
             </div>
           </div>
@@ -161,13 +112,7 @@
       <div class="cart-settlement">
         <div class="allcb">
           <div @click="selectAll">
-            <icon
-              name="checkbox-right"
-              v-if="
-                cartInfo.footer &&
-                  cartInfo.footer.fields.checkAll.checked === true
-              "
-            ></icon>
+            <icon name="checkbox-right" v-if="true"></icon>
             <icon name="checkbox" v-else></icon>
             <span>全选</span>
           </div>
@@ -211,8 +156,8 @@ export default class Cart extends Vue {
   @State(state => state.shop.goodsList)
   goodsList!: StoreState.Goods[];
 
-  @Getter('cartInfo', { namespace })
-  cartInfo!: any;
+  @Getter('cartList', { namespace })
+  cartList: any;
 
   @Getter('payInfo', { namespace })
   payInfo!: any;

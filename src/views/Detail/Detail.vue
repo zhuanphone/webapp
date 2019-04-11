@@ -232,23 +232,18 @@
       class="mint-popup"
     >
       <div class="dialog">
-        <div class="dialog-title ">产品参数</div>
         <div class="dialog-content">
-          <div class="dialog-product-params">
-            <ul class="product-param-list">
-              <li
-                v-for="info in goodInfo.product_extra_infos"
-                :key="info.product_id"
-              >
-                <div class="param-name">{{ info.field_name }}</div>
-                <div class="param-value">{{ info.field_value }}</div>
-              </li>
-            </ul>
+          <img src="goodInfo.imgs[0].url" alt="" />
+          <div>
+            <h3>{{ goodInfo.name }}</h3>
+            <div>
+              <h4>{{ goodInfo.originPrice }}</h4>
+            </div>
           </div>
         </div>
 
         <div class="dialog-button-group">
-          <button class="btn-close" @click="popupProductVisible = false">
+          <button class="btn-close" @click="confirmAddToCart()">
             完成
           </button>
         </div>
@@ -329,9 +324,13 @@ export default class Detail extends Vue {
   @Action('cart/addToCart')
   addToCart: any;
 
-  handleAddToCart(goodInfo: StoreState.Goods) {
-    this.addToCart(goodInfo);
+  handleAddToCart() {
     this.popupProductVisible = true;
+  }
+
+  confirmAddToCart() {
+    this.addToCart(this.goodInfo);
+    this.popupProductVisible = false;
   }
 
   goToChartPage() {

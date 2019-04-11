@@ -184,19 +184,18 @@ const getters: GetterTree<any, any> = {
     return state.cartList.length
   },
 
-  cartInfo: state => state.cartInfo,
+  cartList: state => state.cartList,
 
   payInfo(state) {
-    const { goods } = state.cartInfo;
+    const goods = state.cartList as any[];
     let totalprice = 0;
     let quantity = 0;
     if (goods) {
-      Object.keys(goods).forEach(id => {
-        const { fields } = goods[id];
-        const isChecked = fields.checked;
+      goods.forEach(good => {
+        const isChecked = good.checked;
         if (isChecked) {
           quantity += 1;
-          totalprice += (fields.pay.now / 100) * fields.quantity.quantity;
+          totalprice += (good.originPrice / 100) * quantity;
         }
       });
     }
