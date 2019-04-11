@@ -47,9 +47,6 @@
     "typescript": "^3.0.0",
     "vue-template-compiler": "^2.5.17"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
     "*.js": [
       "vue-cli-service lint",

@@ -30,6 +30,6 @@ export default {
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:5000/api/v1'
         // ? 'http://172.18.3.216:5000/api/v1'
-        : '',
+        : '/api/v1',
   },
 };
