@@ -77,6 +77,11 @@ const actions: ActionTree<any, any> = {
     if (res && res.status === 200) commit(TYPES.SET_GOODSINFO, res.result || {})
   },
 
+  // 购买当前商品
+  async buyCurrentGood({ commit }) {
+
+  }
+
 };
 
 export default {

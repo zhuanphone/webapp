@@ -26,7 +26,15 @@ export const SET_BUY_EDIT_STATUS = 'SET_BUY_EDIT_STATUS';
 
 export const DEL_CART_GOOD = 'DEL_CART_GOOD';
 
+// 用户登录
+export const SET_CURRENT_USER = 'SET_CURRENT_USER'
+export const SET_TOKEN = 'SET_TOKEN'
+
 // 购物车
 export const ADD_TO_CART = 'ADD_TO_CART'
 
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+
+// 订单
+export const ADD_TO_ORDER = 'ADD_TO_ORDER'
+export const SET_ORDER_USERID = 'SET_ORDER_USERID'

@@ -1,48 +1,49 @@
 <template>
   <div class="detail buy-goods-wrap">
+    <mt-header fixed title="手机详情">
+      <router-link to="/" slot="left">
+        <mt-button icon="back"></mt-button>
+      </router-link>
+    </mt-header>
     <!-- 图片 -->
     <div :class="[isFullScreen ? 'siema-wrapper' : '', 'goods-swiper']">
       <swiper :options="swiperOption">
         <!-- slides -->
         <swiper-slide v-for="item in goodInfo.imgs" :key="item.uid">
           <div class="img-wrapper">
-            <img :src="item.url" @click.prevent="openGoodsSwiper" />
+            <img :src="item.url" @click.prevent="openGoodsSwiper">
           </div>
         </swiper-slide>
         <!-- Optional controls -->
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
-
     <!-- 价格 -->
     <div class="goods-price">
       <p class="goods-sales-price">
-        ¥
+        现价：¥
         <em>{{ goodInfo.purchasePrice }}</em>
       </p>
       <p class="goods-original-price">
-        价格
+        原价：￥
         <del>{{ goodInfo.originPrice }}</del>
       </p>
     </div>
-
     <!-- 价格 -->
     <div class="goods-name">
-      <p class="goods-name-text">
-        {{ goodInfo.name }}
+      <p class="goods-name-text">{{ goodInfo.name }}</p>
+      <p class="goods-sales">
+        总销
+        <span>{{ goodInfo.saleCount }}</span>笔
       </p>
-      <p class="goods-sales">总销{{ 2 }}笔</p>
     </div>
-
     <!-- 其他信息 -->
     <!-- <div class="goods-text">
       <p class="goods-express">快递：{{ 1 }}</p>
       <p class="goods-sales">总销{{ 2 }}笔</p>
       <p class="goods-evaluation">评价{{ 3 }}条</p>
-    </div> -->
-
+    </div>-->
     <div class="goods-gary"></div>
-
     <div class="goods-detail-desc">
       <p class="detail-desc-title">
         <span>详情</span>
@@ -56,184 +57,16 @@
         <i>{{ cartGoodsCount }}</i>
       </div>
       <div class="bottom-bar-btn cart">
-        <span class="btn-title" @click="handleAddToCart(goodInfo)"
-          >加入购物车</span
-        >
+        <span class="btn-title" @click="handleAddToCart()">加入购物车</span>
       </div>
       <div class="bottom-bar-btn buy">
-        <span class="btn-title">立即购买</span>
+        <span class="btn-title" @click="buyNow()">立即购买</span>
       </div>
     </div>
-
-    <!-- 规格 -->
-    <!-- <div class="goods-cell" @click="popupSkuVisible = true">
-      <div class="goods-cell-title">
-        <p>规格</p>
-      </div>
-      <div class="goods-cell-content">
-        <p>请选择 层数 颜色分类 </p>
-      </div>
-      <div class="goods-cell-icon">
-        <p>></p>
-      </div>
-    </div> -->
-
-    <!-- 参数 -->
-    <!-- <div class="goods-cell" @click="popupProductVisible = true">
-      <div class="goods-cell-title">
-        <p>参数</p>
-      </div>
-      <div class="goods-cell-content">
-        <p>产品 品牌...</p>
-      </div>
-      <div class="goods-cell-icon">
-        <p>></p>
-      </div>
-    </div>
-
-    <div class="goods-gary"></div> -->
-
-    <!-- 店铺 -->
-    <!-- <div class="goods-shop" v-if="goodInfo.shop">
-      <div class="goods-shop-name">
-        <img class="shop-logo" :src="goodInfo.shop.logo">
-        <p class="shop-name ellipsis">{{ goodInfo.shop.name }}</p>
-      </div>
-
-      <div class="goods-shop-evaluation">
-        <p class="gs-desc">商品描述：
-          <span>{{ goodInfo.shop.descScore }}</span>
-          <span>{{ getGrade(goodInfo.shop.descScore) }}</span>
-        </p>
-        <p class="gs-sales">卖家服务：
-          <span>{{ goodInfo.shop.serviceScore }}</span>
-          <span>{{ getGrade(goodInfo.shop.serviceScore) }}</span>
-        </p>
-        <p class="gs-express">物流服务：
-          <span>{{ goodInfo.shop.expressScore }}</span>
-          <span>{{ getGrade(goodInfo.shop.expressScore) }}</span>
-        </p>
-      </div>
-
-      <div class="goods-shop-bnts">
-        <button>关注店铺</button>
-        <button>进入店铺</button>
-      </div>
-    </div> -->
-
-    <!-- 详情 -->
-    <!-- <div class="goods-detail-desc">
-      <p class="detail-desc-title">
-        <span>详情</span>
-      </p>
-      <div class="detail-desc-body" v-html="goodInfo.body"></div>
-    </div>
-
-    <div class="bottom-bar">
-      <div class="btn-shop">
-        <span class="taobao-iconfont icon-highlight">삍</span>
-        <span class="btn-text">店铺</span>
-      </div>
-      <div class="btn-wangwang">
-        <span class="taobao-iconfont ">쁭</span>
-        <span class="btn-text">客服</span>
-      </div>
-      <div class="btn-fav">
-        <span class="taobao-iconfont ">뀝</span>
-        <span class="btn-text">收藏</span>
-      </div>
-      <div class="bottom-bar-btn cart">
-        <span class="btn-title" @click="popupSkuVisible = true">加入购物车</span>
-      </div>
-      <div class="bottom-bar-btn buy">
-        <span class="btn-title" @click="popupSkuVisible = true">立即购买</span>
-      </div>
-    </div> -->
-
-    <!-- <mt-popup v-model="popupSkuVisible" position="bottom" class="mint-popup">
+    <mt-popup v-model="popupProductVisible" position="bottom" class="mint-popup">
       <div class="dialog">
         <div class="dialog-content">
-          <div class="dialog-xsku">
-            <div class="ctrl-ui-sku">
-              <div class="sku-pro">
-                <div>
-                  <div class="sku-img">
-                    <p><img src="//img.alicdn.com/imgextra/i4/120976213/TB2E80DeXXXXXb5XXXXXXXXXXXX_!!120976213.jpg_640x640q85s150_.webp"></p>
-                  </div>
-                  <div class="sku-pro-info">
-                    <div>
-                      <h3 class="sku-title">电脑椅折叠椅子家用塑料椅子餐椅家用折叠凳办公椅休闲椅便携椅</h3>
-                      <p class="h">￥31-88</p>
-                      <p class="quantity">库存:296318</p>
-                      <p class="sku-txt">
-                        <span class="c-sku"></span>
-                        <span class="unc-sku">请选择: 颜色分类</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="sku-closed" @click="popupSkuVisible = false">x</div>
-                </div>
-              </div>
-
-              <div class="sku-info">
-                <div>
-                  <h2>颜色分类</h2>
-                  <ul>
-                    <li class="normal">白腿白椅 加固</li>
-                    <li class="normal">黑腿黒椅 加固</li>
-                    <li class="normal">3017折叠椅 硬座 白色</li>
-                    <li class="normal">3017折叠椅 硬座 黑色</li>
-                    <li class="normal">3017折叠椅 硬座 蓝色</li>
-                    <li class="normal">3017折叠椅 硬座 红色</li>
-                    <li class="normal">3017折叠椅 硬座 桔色</li>
-                    <li class="normal">黑色 精巧款 加固</li>
-                    <li class="normal">白腿白椅 加固</li>
-                    <li class="normal">黑腿黒椅 加固</li>
-                    <li class="normal">3017折叠椅 硬座 白色</li>
-                    <li class="normal">3017折叠椅 硬座 黑色</li>
-                    <li class="normal">3017折叠椅 硬座 蓝色</li>
-                    <li class="normal">3017折叠椅 硬座 红色</li>
-                    <li class="normal">3017折叠椅 硬座 桔色</li>
-                    <li class="normal">黑色 精巧款 加固</li>
-                    <li class="normal">白腿白椅 加固</li>
-                    <li class="normal">黑腿黒椅 加固</li>
-                  </ul>
-                </div>
-                <div class="quantity-info">
-                  <div class="sku-quantity">
-                    <h2>
-                      购买数量
-                      <span></span>
-                    </h2>
-                    <p class="btn-minus off">
-                      <a class="btn minus" min=""></a>
-                    </p>
-                    <p class="btn-input"><input type="tel" value="1"></p>
-                    <p class="btn-plus">
-                      <a class="btn plus" max=""></a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="sku-btns">
-                <div class="sku-btn addcart">加入购物车</div>
-                <div class="sku-btn gobuy">立即购买</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </mt-popup> -->
-
-    <mt-popup
-      v-model="popupProductVisible"
-      position="bottom"
-      class="mint-popup"
-    >
-      <div class="dialog">
-        <div class="dialog-content">
-          <img src="goodInfo.imgs[0].url" alt="" />
+          <img src="goodInfo.imgs[0].url" alt="">
           <div>
             <h3>{{ goodInfo.name }}</h3>
             <div>
@@ -241,11 +74,8 @@
             </div>
           </div>
         </div>
-
         <div class="dialog-button-group">
-          <button class="btn-close" @click="confirmAddToCart()">
-            完成
-          </button>
+          <button class="btn-close" @click="confirmAddToCart()">完成</button>
         </div>
       </div>
     </mt-popup>
@@ -257,13 +87,15 @@ import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
 
 import 'mint-ui/lib/popup/style.css';
-import { Popup } from 'mint-ui';
+import { Popup, Header, Button, Field } from 'mint-ui';
 
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 
 @Component({
   components: {
+    [Header.name]: Header,
+    [Button.name]: Button,
     [Popup.name]: Popup,
     swiper,
     swiperSlide,
@@ -291,6 +123,9 @@ export default class Detail extends Vue {
 
   @Action('shop/getGoodsInfo')
   getGoodsInfo: any;
+
+  @Action('order/addToOrder')
+  addToOrder: any;
 
   @Getter('cartGoodsCount', { namespace: 'cart' })
   cartGoodsCount: any;
@@ -326,6 +161,13 @@ export default class Detail extends Vue {
 
   handleAddToCart() {
     this.popupProductVisible = true;
+  }
+
+  buyNow() {
+    console.log('buy now');
+    this.addToOrder(this.goodInfo);
+    console.log('this.$router: ', this.$router);
+    this.$router.push('/order');
   }
 
   confirmAddToCart() {
@@ -416,6 +258,16 @@ export default class Detail extends Vue {
 
 .buy-goods-wrap {
   height: calc(100% + 500px);
+  padding-top: 90px;
+
+  .mint-header {
+    height: 90px;
+    background-color: #f7624f;
+  }
+
+  .mint-header.is-fixed {
+    z-index: 100;
+  }
   .goods-gary {
     display: flex;
     overflow: hidden;
@@ -429,6 +281,7 @@ export default class Detail extends Vue {
     position: relative;
     padding: 0 20px;
     margin-top: 24px;
+
     .goods-sales-price {
       font-size: 24px;
       font-weight: bold;
@@ -447,6 +300,11 @@ export default class Detail extends Vue {
         font-style: normal;
       }
     }
+  }
+
+  .goods-sales > span {
+    display: inline-block;
+    padding: 0 10px;
   }
 
   .goods-name {

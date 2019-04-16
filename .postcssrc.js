@@ -14,6 +14,7 @@ module.exports = {
       selectorBlackList: ['.ignore', '.hairlines'],
       minPixelValue: 1,
       mediaQuery: false,
+      exclude: ["node_modules"]
     },
     'postcss-viewport-units': {},
     cssnano: {

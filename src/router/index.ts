@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '../views/Home/Home.vue';
+import { getToken } from '@/utils';
 
 Vue.use(Router);
 
@@ -21,6 +22,25 @@ const routes = [
     path: '/cart',
     name: 'cart',
     component: () => import('../views/Cart/Cart.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: () => import('../views/Order/Order.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/payorder',
+    name: 'payorder',
+    component: () => import('../views/Order/PayOrder.vue'),
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/detail/:id',
@@ -30,8 +50,18 @@ const routes = [
   {
     path: '/me',
     name: 'me',
-    meta: { isNav: true },
+    meta: { isNav: true, requireAuth: true },
     component: () => import('@/views/Me/Me.vue'),
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/User/Login.vue'),
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/User/Register.vue'),
   },
 ];
 
@@ -47,12 +77,26 @@ const router = new Router({
   },
 });
 
-router.addRoutes([
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/User/Login.vue'),
-  },
-]);
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(route => route.meta.requireAuth)) {
+    // let user=window.window.sessionStorage.user;
+    // user=user&&JSON.parse(user);
+    // user={...store.state.userInfo,...user}
+
+    const token = getToken()
+
+    if (token) {
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  } else {
+    next();
+  }
+
+})
 
 export default router;

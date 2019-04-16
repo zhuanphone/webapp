@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '@/config';
+import { getToken } from '.';
 
 const baseURL = config.url.basicUrl;
 const $axios = axios.create({
@@ -13,10 +14,16 @@ const $axios = axios.create({
 // 请求拦截
 $axios.interceptors.request.use(
   (config: any) => {
+    console.log('config: ', config);
     // 处理请求之前的配置
     // if (store.getters.token) {
     //   config.headers['token'] = getToken();
     // }
+    if (['post', 'put', 'delete'].indexOf(config.method) >= 0) {
+
+      config.headers['Authorization'] = `Bearer ${getToken()}`
+      console.log('getToken(): ', getToken());
+    }
     return config;
   },
   (error: any) => {

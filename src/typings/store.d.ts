@@ -7,6 +7,12 @@ declare namespace StoreState {
     path: string;
   }
 
+  export interface ResponseData {
+    status: number;
+    message: string;
+    result: any;
+  }
+
   // 广告轮播
   export interface Banners {
     id: string | undefined;
@@ -21,6 +27,26 @@ declare namespace StoreState {
     type: string;
     title: string;
     imglist: any;
+  }
+
+  export interface User {
+    username: string;
+    phone: string;
+    password: string;
+  }
+
+  export enum Roles {
+    USER = 'USER',
+    ADMIN = 'ADMIN'
+  }
+
+  export interface UserInfo {
+    _id: string;
+    username: string;
+    phone: string;
+    address: string[];
+    cart?: any[];
+    role: string;
   }
 
   // 商品类型
@@ -49,5 +75,18 @@ declare namespace StoreState {
     icon: string;
   }
 
-  export interface GoodsInfo { }
+  export interface GoodsLink {
+    id: string;
+    count: number;
+  }
+
+  type GoodsInOrder = Goods & GoodsLink
+
+  // 订单信息
+  export interface OrderInfo {
+    deliveryAddr: string; // 发送地址
+    amount: number; // 订单总金额
+    userId: string; // 关联用户
+    goods: GoodsInOrder[] // 包含商品
+  }
 }

@@ -1,6 +1,7 @@
 import 'normalize.css';
 import './style/common.scss';
-import 'mint-ui/lib/toast/style.css';
+// import 'mint-ui/lib/toast/style.css';
+import 'mint-ui/lib/style.css'
 
 import Vue from 'vue';
 import App from './App.vue';

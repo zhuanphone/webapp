@@ -18,15 +18,24 @@
          v-model="form.password"
          placeholder="请输入密码" />
 
-        <span @click="toggleEye">
+        <span @click="toggleEye('password')">
           <icon :class="[isVisablePwd ? 'on-eye' : '', 'icon']" name="yanjing" ></icon>
         </span>
       </div>
 
-      <div class="action-cell">
-        <p @click="goToRegister()">新用户注册</p>
-        <p>忘记密码</p>
+      <div class="input-cell">
+        <input
+         class="input"
+         :type="isVisablePwd ? 'text' : 'password'"
+         name="password"
+         v-model="form.duplicatePass"
+         placeholder="确认密码" />
+
+        <span @click="toggleEye('duplicatePass')">
+          <icon :class="[isVisableDupPwd ? 'on-eye' : '', 'icon']" name="yanjing" ></icon>
+        </span>
       </div>
+
 
       <!-- <div class="input-cell">
         <input type="text" class="input" v-model="form.captcha">
@@ -37,7 +46,7 @@
 
 
       <div class="btn-cell">
-        <button class="btn" @click="handleLogin()">登录</button>
+        <button class="btn" @click="handleRegister()">注册</button>
       </div>
 
     </div>
@@ -48,10 +57,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Toast } from 'mint-ui';
 import { Action } from 'vuex-class';
+import { checkPhoneNumber } from '@/utils';
 
 @Component
-export default class Login extends Vue {
+export default class Register extends Vue {
   private isVisablePwd: boolean = false;
+  private isVisableDupPwd: boolean = false;
   private isSend: boolean = false;
   private countDown = 30;
 
@@ -60,42 +71,41 @@ export default class Login extends Vue {
   private form = {
     username: '',
     password: '',
+    duplicatePass: '',
   };
 
-  private toggleEye() {
-    this.isVisablePwd = !this.isVisablePwd;
+  private toggleEye(type: string) {
+    if (type === 'password') {
+      this.isVisablePwd = !this.isVisablePwd;
+    } else {
+      this.isVisableDupPwd = !this.isVisableDupPwd;
+    }
   }
 
-  private sendCaptcha() {
-    this.isSend = true;
-    this.startCountDown();
-    Toast({
-      message: '验证码已发送！',
-    });
-  }
+  @Action('auth/register')
+  register: any;
+  // http://www.mob.com
+  private handleRegister() {
+    if (this.form.password !== this.form.duplicatePass) {
+      Toast({
+        message: '两次输入密码不一致！',
+      });
+      return;
+    }
 
-  private startCountDown() {
-    this.interval = setInterval(() => {
-      this.countDown -= 1;
-    }, 1000);
-
-    setTimeout(() => {
-      console.log('this.interval: ', this.interval);
-      if (this.interval) {
-        clearInterval(this.interval);
-        this.isSend = false;
-      }
-    }, 30000);
-  }
-
-  @Action('auth/login')
-  login: any;
-
-  private handleLogin() {
+    if (!checkPhoneNumber(this.form.username)) {
+      Toast({
+        message: '手机号格式不正确！',
+      });
+      return;
+    }
     console.log('data ====>', this.form);
-    this.login(this.form).then((res: StoreState.ResponseData) => {
-      console.log('res: ', res);
-      if (res.status === 200) {
+    const newUser = { ...this.form, phone: this.form.username };
+    this.register(newUser).then((res: StoreState.ResponseData) => {
+      if (res.status === 201) {
+        Toast({
+          message: '注册成功！',
+        });
         this.$router.push('/');
       } else {
         Toast({
@@ -103,10 +113,6 @@ export default class Login extends Vue {
         });
       }
     });
-  }
-
-  private goToRegister() {
-    this.$router.push('/register');
   }
 }
 </script>

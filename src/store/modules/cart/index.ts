@@ -10,11 +10,11 @@ const isEveryRight = (arr: any, fn: any) =>
   arr.map(fn).every((val: boolean) => val);
 
 interface cartState {
-  cartList: StoreState.Goods[]
+  cartList: StoreState.Goods[],
 }
 
 const state: cartState = {
-  cartList: []
+  cartList: [],
 };
 
 const mutations: MutationTree<any> = {

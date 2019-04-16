@@ -29,6 +29,8 @@ export default class Home extends Vue {
 
   @Watch('$route')
   onRotuteChanged(val: any) {
+    console.log('val: ', val);
+
     const { meta } = val;
     this.isNav = meta.isNav || false;
   }

@@ -5,13 +5,11 @@
         <router-link :to="'/detail/' + good._id">
           <div class="good-product">
             <div class="good-img">
-              <img class="lazy-img-fadein" v-lazy="good.imgs[0].url" />
+              <img class="lazy-img-fadein" v-lazy="good.imgs[0].url">
             </div>
-
             <p class="good-text">{{ good.name }}</p>
-
             <p class="good-price">
-              ¥&nbsp;
+              ¥
               <span class="price">{{ good.originPrice }}</span>
             </p>
           </div>
@@ -57,7 +55,8 @@ export default class GoodsList extends Vue {
 
     @at-root .good-product {
       background-color: #fff;
-      padding-bottom: 6px;
+      padding-top: 15px;
+      padding-bottom: 15px;
       font-size: 0;
 
       .good-img {
@@ -72,7 +71,7 @@ export default class GoodsList extends Vue {
       }
 
       .good-text {
-        height: 65px;
+        text-align: center;
         font-size: 26px;
         overflow: hidden;
         -o-text-overflow: ellipsis;
@@ -89,15 +88,9 @@ export default class GoodsList extends Vue {
       }
 
       .good-price {
-        height: 50px;
+        text-align: center;
         font-size: 28px;
-        overflow: hidden;
         color: #f23030;
-        display: inline-block;
-        padding: 0 10px 0 8px;
-        position: relative;
-        top: 5px;
-        line-height: 50px;
       }
     }
   }

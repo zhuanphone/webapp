@@ -2,9 +2,9 @@
   <div class="me me-wrap">
     <div class="me-header">
       <div class="me-header-main">
-        <div class="m-header-avatar">
+        <!-- <div class="m-header-avatar">
           <img src="//img11.360buyimg.com/jdphoto/s120x122_jfs/t5683/191/7076936752/5123/834e5571/596dd62bN7a8affc5.png">
-        </div> 
+        </div>  -->
 
         <div class="m-header-msg">
           <div class="mh-user-name">Vincent Du</div>
@@ -13,29 +13,11 @@
           </div>
         </div>
 
-        <div class="m-header-settings">
+        <!-- <div class="m-header-settings">
           <icon name="nav4a"></icon>
-        </div>
-      </div>
-
-      <div class="me-header-links">
-        <div class="me-links-item">
-          <p class="have-nums">162</p>
-          <p class="link-name">收藏夹</p>
-        </div>
-        <div class="me-links-item">
-          <p class="have-nums">22</p>
-          <p class="link-name">关注店铺</p>
-        </div>
-        <div class="me-links-item">
-          <p class="have-nums">88</p>
-          <p class="link-name">足迹</p>
-        </div>
-        <!-- <div class="me-links-item">
-          <p class="have-nums">2</p>
-          <p class="link-name">收藏夹</p>
         </div> -->
       </div>
+
     </div>
 
     <section class="me-act">
@@ -80,15 +62,14 @@
             </a>
           </li>
 
-          <li class="block-item">
+          <!-- <li class="block-item">
             <a>
               <p class="block-icon">
                 <icon name="daipingjia1"></icon>
               </p>
               <p class="block-name">代评价</p>
-              <!-- <span class="block-tag">12</span> -->
             </a>
-          </li>
+          </li> -->
 
           <li class="block-item">
             <a>
@@ -101,89 +82,7 @@
         </ul>
       </div>
     </section>
-
-    <section class="block-area me-tools">
-      <div class="block-area-box">
-        <div class="block-box-header">
-          <p class="block-title">必备工具箱</p>
-          <p class="block-more">查看全部工具<icon name="arrow-right"></icon></p>
-        </div>
-
-        <ul class="block-box-cell">
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="huodong"></icon>
-              </p>
-              <p class="block-name">我的活动</p>
-            </a>
-          </li>
-
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="youhuiquan1"></icon>
-              </p>
-              <p class="block-name">领券中心</p>
-            </a>
-          </li>
-
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="qianbao1"></icon>
-              </p>
-              <p class="block-name">我的钱包</p>
-            </a>
-          </li>
-
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="kefucopy"></icon>
-              </p>
-              <p class="block-name">客服反馈</p>
-            </a>
-          </li>
-
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="pingjia6"></icon>
-              </p>
-              <p class="block-name">我的评价</p>
-            </a>
-          </li>
-
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="wenda1"></icon>
-              </p>
-              <p class="block-name">我的问答</p>
-            </a>
-          </li>
-
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="huiyuanzhongxin"></icon>
-              </p>
-              <p class="block-name">会员中心</p>
-            </a>
-          </li>
-
-          <li class="block-item fli5">
-            <a>
-              <p class="block-icon">
-                <icon name="gengduo1"></icon>
-              </p>
-              <p class="block-name">更多</p>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </section>
+    
   </div>
 </template>
 
@@ -210,10 +109,10 @@ export default class Me extends Vue {}
 
 .me-header {
   position: relative;
-  height: 320px;
+  height: 200px;
   background: url('../../assets/images/mheader_bg.png');
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
 
   .me-header-main {
     display: flex;
@@ -252,6 +151,7 @@ export default class Me extends Vue {}
 
     .m-header-msg {
       flex: 1;
+      text-align: center;
 
       .mh-user-name {
         font-size: 32px;
@@ -340,7 +240,7 @@ export default class Me extends Vue {}
 
     li {
       float: left;
-      width: 20%;
+      width: 25%;
       text-align: center;
       font-size: 26px;
       position: relative;
