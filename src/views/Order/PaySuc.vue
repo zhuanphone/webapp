@@ -1,82 +1,15 @@
 <template>
   <div class="order order-wrap">
-    <mt-header fixed title="填写订单">
+    <mt-header fixed title="支付成功">
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
     <div class="order-content">
-      <section>
-        <h5>收货地址</h5>
-        <mt-field placeholder="填写收货地址" type="textarea" rows="4" v-model="orderInfo.address"></mt-field>
-      </section>
-      <section>
-        <h5>收货人电话</h5>
-        <mt-field placeholder="填写收货人电话" type="tel" v-model="orderInfo.phone"></mt-field>
-      </section>
-      <section>
-        <h5>商品列表</h5>
-        <div class="cart-area">
-          <div class="cart-list">
-            <!-- 购物车商品列表 -->
-            <div
-              v-if="orderInfo.goods"
-              class="cart-item"
-              v-for="good in orderInfo.goods"
-              :key="good.id"
-            >
-              <div class="cart-item-box">
-                <div class="item-detail">
-                  <div>
-                    <div class="item-img">
-                      <a>
-                        <img :src="getThumb(good)">
-                      </a>
-                    </div>
-                    <div class="item-info">
-                      <a href="">
-                        <h3 class="title">{{ good.name }}</h3>
-                      </a>
-                      <div class="pay">
-                        <div class="pay-price">
-                          <div class="price">
-                            <p class="o-t-price">
-                              <span class="major">{{ good.purchasePrice }}</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="edit-quantity">
-                          <p class="btn-minus" @click.prevent="changeGoodCount(good, 'minus')">
-                            <a class="sbtn minus off">
-                              <icon name="minus"></icon>
-                            </a>
-                          </p>
-                          <p class="btn-input">
-                            <input
-                              type="number"
-                              v-model.number="good.count"
-                              @blur="changeGoodCount(good, 'input')"
-                            >
-                          </p>
-                          <p class="btn-plus" @click.prevent="changeGoodCount(good, 'plus')">
-                            <a class="sbtn plus">
-                              <icon name="plus"></icon>
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-    <div class="order-footer">
-      <h5 class="order-total-price">￥{{orderInfo.amount}}</h5>
-      <button class="bottom-bar-btn buy" @click="handleSubmitOrder()">提交订单</button>
+      <!-- <section>
+        <h3>订单详情</h3>
+      </section>-->
+      支付成功!
     </div>
   </div>
 </template>
@@ -85,8 +18,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
 
-import { Header, Button, Field, Toast } from 'mint-ui';
-import { checkPhoneNumber } from '@/utils';
+import { Header, Button, Field } from 'mint-ui';
 
 @Component({
   components: {
@@ -95,89 +27,28 @@ import { checkPhoneNumber } from '@/utils';
     [Field.name]: Field,
   },
 })
-export default class Order extends Vue {
+export default class PaySuc extends Vue {
   @Getter('orderInfo', { namespace: 'order' })
   orderInfo: any;
 
-  @Getter('currentUser', { namespace: 'auth' })
-  currentUser: any;
+  get orderAmount() {
+    const ret = (this.orderInfo.goods as any[]).reduce(function(ret, cur) {
+      return ret + cur.originPrice;
+    }, 0);
 
-  // get orderAmount() {
-  //   const ret = (this.orderInfo.goods as any[]).reduce(function(ret, cur) {
-  //     return ret + cur.originPrice;
-  //   }, 0);
-
-  //   return ret.toFixed(2);
-  // }
-
-  getThumb(good: StoreState.Goods) {
-    if (good && good.imgs) {
-      return good.imgs[0].url;
-    }
-  }
-
-  @Action('order/changeOrderGood')
-  changeOrderGood: any;
-
-  private changeGoodCount(good: StoreState.GoodsInOrder, action: string) {
-    console.log('good: ', good);
-    switch (action) {
-      case 'minus':
-        good.count -= 1;
-        break;
-      case 'plus':
-        good.count += 1;
-        break;
-      default:
-        break;
-    }
-    this.changeOrderGood(good);
+    return ret.toFixed(2);
   }
 
   @Action('order/submitOrder')
   submitOrder: any;
 
-  private handleSubmitOrder() {
-    if (!this.orderInfo.address) {
-      Toast({
-        message: '收货地址不能为空！',
-      });
-      return;
-    }
-
-    if (!this.orderInfo.phone) {
-      Toast({
-        message: '收货人手机号不能为空！',
-      });
-      return;
-    }
-
-    if (!checkPhoneNumber(this.orderInfo.phone)) {
-      Toast({
-        message: '手机号格式不正确！',
-      });
-      return;
-    }
-
+  private handleSubmit() {
     const goods = this.orderInfo.goods as StoreState.GoodsInOrder[];
     this.orderInfo.goods = goods.map(good => ({
       id: good._id,
       count: good.count,
     }));
-
-    // this.orderInfo.userId = this.currentUser._id;
-    this.orderInfo.amount = goods.reduce(function(ret, cur) {
-      return cur.originPrice + ret;
-    }, 0);
-
-    this.submitOrder(this.orderInfo).then((res: StoreState.ResponseData) => {
-      if (res.status === 201) {
-        const { order, payurl } = res.result;
-        const orderId = order._id;
-        window.location = payurl;
-        // this.$router.push({ name: 'payorder', params: orderId });
-      }
-    });
+    this.submitOrder(this.orderInfo);
   }
 }
 </script>
@@ -198,19 +69,13 @@ export default class Order extends Vue {
   .order-content {
     border-radius: 10px;
     padding: 0 20px;
+    text-align: center;
 
     section {
       background: #fff;
       padding: 15px;
       margin-bottom: 20px;
-
-      h5 {
-        margin-bottom: 10px;
-      }
-
-      .mint-cell:last-child {
-        background-image: none;
-      }
+      min-height: 200px;
     }
     .mint-cell-title {
       width: 50px;
@@ -254,13 +119,15 @@ export default class Order extends Vue {
   }
 
   .cart-item {
-    // position: relative;
-    // display: flex;
+    position: relative;
+    display: flex;
     font-size: 24px;
   }
 
   @at-root .cart-item-box {
+    position: relative;
     z-index: 10;
+    display: flex;
     background: #fff;
     transition: transform 0.2s ease-in 0s;
 
@@ -307,6 +174,7 @@ export default class Order extends Vue {
 
       .item-img {
         width: 200px;
+        margin: 15px 0 15px 0px;
         background: #fff;
         overflow: hidden;
         display: flex;
@@ -323,8 +191,7 @@ export default class Order extends Vue {
 
         img {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
+          max-width: 100%;
           transform: translateZ(0);
         }
       }

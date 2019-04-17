@@ -19,11 +19,11 @@ $axios.interceptors.request.use(
     // if (store.getters.token) {
     //   config.headers['token'] = getToken();
     // }
-    if (['post', 'put', 'delete'].indexOf(config.method) >= 0) {
+    // if (['post', 'put', 'delete'].indexOf(config.method) >= 0) {
 
-      config.headers['Authorization'] = `Bearer ${getToken()}`
-      console.log('getToken(): ', getToken());
-    }
+    //   config.headers['Authorization'] = `Bearer ${getToken()}`
+    //   console.log('getToken(): ', getToken());
+    // }
     return config;
   },
   (error: any) => {

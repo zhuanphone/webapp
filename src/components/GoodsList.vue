@@ -8,10 +8,13 @@
               <img class="lazy-img-fadein" v-lazy="good.imgs[0].url">
             </div>
             <p class="good-text">{{ good.name }}</p>
-            <p class="good-price">
-              ¥
-              <span class="price">{{ good.originPrice }}</span>
-            </p>
+            <div class="good-price">
+              <span class="price">¥{{ good.originPrice }}</span>
+              <div class="good-tags">
+                <span>30天质保</span>
+                <span>支持验机</span>
+              </div>
+            </div>
           </div>
         </router-link>
       </li>
@@ -69,7 +72,7 @@ export default class GoodsList extends Vue {
       }
 
       .good-text {
-        text-align: center;
+        padding: 10px 0;
         font-size: 26px;
         overflow: hidden;
         -o-text-overflow: ellipsis;
@@ -87,9 +90,24 @@ export default class GoodsList extends Vue {
 
       .good-price {
         padding: 10px 0;
-        text-align: center;
-        font-size: 28px;
-        color: #f23030;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .price {
+          font-size: 30px;
+          color: #f23030;
+        }
+
+        .good-tags > span {
+          background-color: rgba(136, 220, 135, 0.5);
+          border-radius: 5px;
+          display: inline-block;
+          font-size: 20px;
+          padding: 2px 5px;
+          margin-left: 5px;
+          color: #355d34;
+        }
       }
     }
   }

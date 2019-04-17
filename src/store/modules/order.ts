@@ -21,6 +21,21 @@ const mutations: MutationTree<any> = {
   [TYPES.ADD_TO_ORDER](state, data): void {
     state.orderInfo.goods.push({ ...data, count: 1 })
   },
+
+  [TYPES.CHANGE_ORDER_GOOD](state, data): void {
+    console.log('data: ', data);
+    const index = state.orderInfo.goods.findIndex((good: StoreState.Goods) => good._id === data.id)
+    state.orderInfo.goods.splice(index, 1, data);
+  },
+
+  [TYPES.SET_ORDER_AMOUNT](state) {
+    const total = (state.orderInfo.goods as any[]).reduce(function (ret, cur) {
+      return ret + cur.purchasePrice * cur.count;
+    }, 0);
+
+    //  ret.toFixed(2);
+    state.orderInfo.amount = total;
+  }
 };
 
 const actions: ActionTree<any, any> = {
@@ -38,6 +53,12 @@ const actions: ActionTree<any, any> = {
   addToOrder({ commit }, good) {
     console.log('add to cart: ', good)
     commit(TYPES.ADD_TO_ORDER, good)
+    commit(TYPES.SET_ORDER_AMOUNT)
+  },
+
+  changeOrderGood({ commit }, good) {
+    commit(TYPES.CHANGE_ORDER_GOOD, good)
+    commit(TYPES.SET_ORDER_AMOUNT)
   },
 
   async submitOrder({ commit }, orderInfo) {

@@ -51,8 +51,8 @@
       <div class="detail-desc-body" v-html="goodInfo.desc"></div>
     </div>
     <div class="bottom-bar">
-      <div class="bottom-bar-btn buy">
-        <span class="btn-title" @click="buyNow()">立即购买</span>
+      <div class="bottom-bar-btn buy" @click="buyNow()">
+        <span class="btn-title">立即购买</span>
       </div>
     </div>
     <!-- <div class="bottom-bar">
@@ -262,6 +262,7 @@ export default class Detail extends Vue {
 .buy-goods-wrap {
   height: calc(100% + 500px);
   padding-top: 90px;
+  padding-bottom: 90px;
 
   .mint-header {
     height: 90px;

@@ -49,6 +49,12 @@ declare namespace StoreState {
     role: string;
   }
 
+  export interface GoodImg {
+    uid: string;
+    url: string;
+    name: string;
+  }
+
   // 商品类型
   export interface Goods {
     _id: string;
@@ -56,6 +62,7 @@ declare namespace StoreState {
     name: string;
     desc: string;
     coverImg: string;
+    imgs: GoodImg[];
     originPrice: number;
     purchasePrice: number;
     onShelve: GoodsStatus;

@@ -1,10 +1,6 @@
 <template>
   <div class="home">
-    <mt-header fixed title="手机二手交易网">
-      <router-link to="/" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <mt-header fixed title="手机二手交易网"></mt-header>
     <!-- <BannerSwiper :data="banners" /> -->
     <!-- <QuickLinkNav :data="quicknavlist" /> -->
     <!-- <CustomColumn :data="customs" /> -->
@@ -35,6 +31,7 @@ import state from '@/store/state';
 @Component({
   components: {
     [Header.name]: Header,
+    [Button.name]: Button,
     Footer,
     GoodsList,
     BannerSwiper,

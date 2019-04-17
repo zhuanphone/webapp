@@ -37,4 +37,6 @@ export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 
 // 订单
 export const ADD_TO_ORDER = 'ADD_TO_ORDER'
+export const CHANGE_ORDER_GOOD = 'CHANGE_ORDER_GOOD'
+export const SET_ORDER_AMOUNT = 'SET_ORDER_AMOUNT'
 export const SET_ORDER_USERID = 'SET_ORDER_USERID'

@@ -1,45 +1,45 @@
 <template>
   <div class="login login-wrap">
     <div class="login-header">
-      <img class="logo" src="../../assets/images/ego.png" />
+      <img class="logo" src="../../assets/images/ego.png">
       <p class="intr">二手手机卖场</p>
     </div>
-
     <div class="login-form">
       <div class="input-cell">
-        <input class="input" type="text" name="username" v-model="form.username" placeholder="请输入手机号" />
+        <input
+          class="input"
+          type="text"
+          name="username"
+          v-model="form.username"
+          placeholder="请输入手机号"
+        >
       </div>
-
       <div class="input-cell">
         <input
-         class="input"
-         :type="isVisablePwd ? 'text' : 'password'"
-         name="password"
-         v-model="form.password"
-         placeholder="请输入密码" />
-
+          class="input"
+          :type="isVisablePwd ? 'text' : 'password'"
+          name="password"
+          v-model="form.password"
+          placeholder="请输入密码"
+        >
         <span @click="toggleEye">
-          <icon :class="[isVisablePwd ? 'on-eye' : '', 'icon']" name="yanjing" ></icon>
+          <icon :class="[isVisablePwd ? 'on-eye' : '', 'icon']" name="yanjing"></icon>
         </span>
       </div>
-
       <div class="action-cell">
         <p @click="goToRegister()">新用户注册</p>
         <p>忘记密码</p>
       </div>
-
       <!-- <div class="input-cell">
         <input type="text" class="input" v-model="form.captcha">
 
         <span class="send-capta-btn" v-if="!isSend" @click="sendCaptcha()">发送验证码</span>
         <span class="send-capta-btn" v-else>{{countDown}}秒</span>
-      </div> -->
-
+      </div>-->
 
       <div class="btn-cell">
         <button class="btn" @click="handleLogin()">登录</button>
       </div>
-
     </div>
   </div>
 </template>
@@ -92,7 +92,6 @@ export default class Login extends Vue {
   login: any;
 
   private handleLogin() {
-    console.log('data ====>', this.form);
     this.login(this.form).then((res: StoreState.ResponseData) => {
       console.log('res: ', res);
       if (res.status === 200) {

@@ -31,7 +31,7 @@ const routes = [
     name: 'order',
     component: () => import('../views/Order/Order.vue'),
     meta: {
-      requireAuth: true
+      requireAuth: false
     }
   },
   {
@@ -39,8 +39,13 @@ const routes = [
     name: 'payorder',
     component: () => import('../views/Order/PayOrder.vue'),
     meta: {
-      requireAuth: true
+      requireAuth: false
     }
+  },
+  {
+    path: '/paysuc',
+    name: 'paysuc',
+    component: () => import('../views/Order/PaySuc.vue')
   },
   {
     path: '/detail/:id',
