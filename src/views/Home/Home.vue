@@ -1,16 +1,19 @@
 <template>
   <div class="home">
+    <mt-header fixed title="手机二手交易网">
+      <router-link to="/" slot="left">
+        <mt-button icon="back"></mt-button>
+      </router-link>
+    </mt-header>
     <!-- <BannerSwiper :data="banners" /> -->
     <!-- <QuickLinkNav :data="quicknavlist" /> -->
     <!-- <CustomColumn :data="customs" /> -->
-
     <div class="guess-like-wrap">
-      <p class="guess-title">
+      <!-- <p class="guess-title">
         <span class="guess-layout">二手手机卖场</span>
-      </p>
-      <GoodsList :data="goodsList" />
+      </p>-->
+      <GoodsList :data="goodsList"/>
     </div>
-
     <!-- <Footer :data="navs" /> -->
   </div>
 </template>
@@ -18,6 +21,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
+import { Header, Button, Field } from 'mint-ui';
 
 import Footer from '@/components/Footer.vue';
 import GoodsList from '@/components/GoodsList.vue';
@@ -30,6 +34,7 @@ import state from '@/store/state';
 
 @Component({
   components: {
+    [Header.name]: Header,
     Footer,
     GoodsList,
     BannerSwiper,
@@ -66,6 +71,17 @@ export default class Home extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.home {
+  .mint-header {
+    height: 90px;
+    background-color: #f7624f;
+  }
+
+  .guess-like-wrap {
+    margin-top: 90px;
+  }
+}
+
 .column-title {
   text-align: left;
   font-size: 30px;

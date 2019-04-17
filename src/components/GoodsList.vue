@@ -30,33 +30,29 @@ export default class GoodsList extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.good-list-wrap {
+  height: 100vh;
+}
 .good-list-box {
-  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 
   .good-list-item {
-    float: left;
-    width: 50%;
-    -webkit-box-sizing: border-box;
+    width: 46%;
+    overflow: hidden;
+    margin: 20px 0 0 0;
+    border-radius: 10px;
     box-sizing: border-box;
-    padding-bottom: 8px;
-    position: relative;
-
-    &:nth-child(odd) {
-      padding-right: 4px;
-    }
-
-    &:nth-child(2n) {
-      padding-left: 4px;
-    }
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
 
     a {
       display: block;
+      overflow: hidden;
     }
 
     @at-root .good-product {
       background-color: #fff;
-      padding-top: 15px;
-      padding-bottom: 15px;
       font-size: 0;
 
       .good-img {
@@ -64,9 +60,11 @@ export default class GoodsList extends Vue {
         width: 100%;
 
         img {
-          width: 371px;
+          display: block;
+          width: 100%;
           height: 371px;
-          object-fit: scale-down;
+          border-radius: 10px 10px 0 0;
+          object-fit: cover;
         }
       }
 
@@ -88,6 +86,7 @@ export default class GoodsList extends Vue {
       }
 
       .good-price {
+        padding: 10px 0;
         text-align: center;
         font-size: 28px;
         color: #f23030;

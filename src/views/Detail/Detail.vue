@@ -51,6 +51,11 @@
       <div class="detail-desc-body" v-html="goodInfo.desc"></div>
     </div>
     <div class="bottom-bar">
+      <div class="bottom-bar-btn buy">
+        <span class="btn-title" @click="buyNow()">立即购买</span>
+      </div>
+    </div>
+    <!-- <div class="bottom-bar">
       <div class="btn-shop" @click="goToChartPage()">
         <span class="taobao-iconfont icon-highlight">삍</span>
         <span class="btn-text">购物车</span>
@@ -62,8 +67,8 @@
       <div class="bottom-bar-btn buy">
         <span class="btn-title" @click="buyNow()">立即购买</span>
       </div>
-    </div>
-    <mt-popup v-model="popupProductVisible" position="bottom" class="mint-popup">
+    </div>-->
+    <!-- <mt-popup v-model="popupProductVisible" position="bottom" class="mint-popup">
       <div class="dialog">
         <div class="dialog-content">
           <img src="goodInfo.imgs[0].url" alt="">
@@ -78,7 +83,7 @@
           <button class="btn-close" @click="confirmAddToCart()">完成</button>
         </div>
       </div>
-    </mt-popup>
+    </mt-popup>-->
   </div>
 </template>
 
@@ -164,9 +169,7 @@ export default class Detail extends Vue {
   }
 
   buyNow() {
-    console.log('buy now');
     this.addToOrder(this.goodInfo);
-    console.log('this.$router: ', this.$router);
     this.$router.push('/order');
   }
 
@@ -483,7 +486,6 @@ export default class Detail extends Vue {
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 750px;
   display: flex;
   z-index: 110;
   -webkit-box-orient: horizontal;
@@ -495,7 +497,6 @@ export default class Detail extends Vue {
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  padding-right: 15px;
 
   .btn-shop {
     position: relative;
@@ -535,7 +536,7 @@ export default class Detail extends Vue {
   }
 
   .bottom-bar-btn {
-    width: 40%;
+    width: 100%;
     height: 80px;
     bottom: 24px;
     line-height: 80px;

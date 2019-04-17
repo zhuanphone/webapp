@@ -1,12 +1,11 @@
 <template>
   <div id="app">
     <transition name="router-fade" mode="out-in">
-    	<keep-alive>
+      <keep-alive>
         <router-view/>
       </keep-alive>
     </transition>
-
-    <Footer :data="navs" v-show="isNav" />
+    <!-- <Footer :data="navs" v-show="isNav" /> -->
   </div>
 </template>
 
