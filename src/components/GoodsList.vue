@@ -39,12 +39,12 @@ export default class GoodsList extends Vue {
 .good-list-box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 
   .good-list-item {
     width: 46%;
     overflow: hidden;
-    margin: 20px 0 0 0;
+    margin: 20px 0 0 20px;
     border-radius: 10px;
     box-sizing: border-box;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
