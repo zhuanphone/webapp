@@ -33,7 +33,7 @@ export default class PaySuc extends Vue {
 
   get orderAmount() {
     const ret = (this.orderInfo.goods as any[]).reduce(function(ret, cur) {
-      return ret + cur.originPrice;
+      return ret + cur.purchasePrice;
     }, 0);
 
     return ret.toFixed(2);

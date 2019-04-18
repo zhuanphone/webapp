@@ -9,7 +9,7 @@
             </div>
             <p class="good-text">{{ good.name }}</p>
             <div class="good-price">
-              <span class="price">¥{{ good.originPrice }}</span>
+              <span class="price">¥{{ good.purchasePrice }}</span>
               <div class="good-tags">
                 <span>30天质保</span>
                 <span>支持验机</span>

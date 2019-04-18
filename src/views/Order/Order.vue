@@ -167,7 +167,7 @@ export default class Order extends Vue {
 
     // this.orderInfo.userId = this.currentUser._id;
     this.orderInfo.amount = goods.reduce(function(ret, cur) {
-      return cur.originPrice + ret;
+      return cur.purchasePrice + ret;
     }, 0);
 
     this.submitOrder(this.orderInfo).then((res: StoreState.ResponseData) => {

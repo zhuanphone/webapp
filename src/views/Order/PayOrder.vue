@@ -1,13 +1,11 @@
 <template>
   <div class="order order-wrap">
-      <mt-header fixed title="支付订单">
-        <router-link to="/" slot="left">
-          <mt-button icon="back"></mt-button>
-        </router-link>
-      </mt-header>
-    <div class="order-content">
-      
-    </div>
+    <mt-header fixed title="支付订单">
+      <router-link to="/" slot="left">
+        <mt-button icon="back"></mt-button>
+      </router-link>
+    </mt-header>
+    <div class="order-content"></div>
     <div class="order-footer">
       <button>确认支付</button>
     </div>
@@ -33,7 +31,7 @@ export default class PayOrder extends Vue {
 
   get orderAmount() {
     const ret = (this.orderInfo.goods as any[]).reduce(function(ret, cur) {
-      return ret + cur.originPrice;
+      return ret + cur.purchasePrice;
     }, 0);
 
     return ret.toFixed(2);

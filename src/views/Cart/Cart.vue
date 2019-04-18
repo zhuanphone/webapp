@@ -5,62 +5,39 @@
         <icon name="back"></icon>
       </a>
     </Header>
-
     <div class="cart-area">
       <div class="cart-list">
-        <div
-          class="cart-group"
-          v-if="goods.length > 0"
-          v-for="(goods, key) in cartList"
-          :key="key"
-        >
+        <div class="cart-group" v-if="goods.length > 0" v-for="(goods, key) in cartList" :key="key">
           <!-- 购物车商品列表 -->
-          <div
-            v-if="cartList"
-            class="cart-item"
-            v-for="item in cartList"
-            :key="item"
-          >
+          <div v-if="cartList" class="cart-item" v-for="item in cartList" :key="item">
             <div class="cart-item-box">
               <div class="item-cb">
                 <p @click="selectGood(item)">
-                  <icon
-                    name="checkbox-right"
-                    v-if="item.checked === true"
-                  ></icon>
+                  <icon name="checkbox-right" v-if="item.checked === true"></icon>
                   <icon name="checkbox" v-else></icon>
                 </p>
               </div>
-
               <div class="item-detail">
                 <div>
                   <div class="item-img">
                     <a>
-                      <img :src="item.imgs[0].url" />
+                      <img :src="item.imgs[0].url">
                     </a>
                   </div>
-
                   <div class="item-info">
                     <a href="">
-                      <h3 class="title">
-                        {{ item.name }}
-                      </h3>
+                      <h3 class="title">{{ item.name }}</h3>
                     </a>
-
                     <div class="pay">
                       <div class="pay-price">
                         <div class="price">
                           <p class="o-t-price">
-                            <span class="major">{{ item.originPrice }}</span>
+                            <span class="major">{{ item.purchasePrice }}</span>
                           </p>
                         </div>
                       </div>
-
                       <div class="edit-quantity">
-                        <p
-                          class="btn-minus"
-                          @click.prevent="actionBuyQuantity(item, 'minus')"
-                        >
+                        <p class="btn-minus" @click.prevent="actionBuyQuantity(item, 'minus')">
                           <a class="sbtn minus off">
                             <icon name="minus"></icon>
                           </a>
@@ -70,12 +47,9 @@
                             type="number"
                             v-model.number="item.quantity"
                             @blur="actionBuyQuantity(item, 'input')"
-                          />
+                          >
                         </p>
-                        <p
-                          class="btn-plus"
-                          @click.prevent="actionBuyQuantity(item, 'plus')"
-                        >
+                        <p class="btn-plus" @click.prevent="actionBuyQuantity(item, 'plus')">
                           <a class="sbtn plus">
                             <icon name="plus"></icon>
                           </a>
@@ -86,7 +60,6 @@
                 </div>
               </div>
             </div>
-
             <div class="cart-item-del" @click="delCartGood(item)">
               <div>删除</div>
             </div>
@@ -94,20 +67,17 @@
         </div>
       </div>
     </div>
-
     <div class="cart-empty" style="display: none;">
       <icon class="cart-icon" name="gouwuche"></icon>
       <p>购物车是空空的</p>
       <router-link class="cart-gzbtn" to="/">看看关注</router-link>
     </div>
-
     <!-- <div class="guess-like-wrap" style="min-height: 80vh;">
       <p class="guess-title">
         <span class="guess-layout">为你推荐</span>
       </p>
       <GoodsList :data="goodsList" />
-    </div> -->
-
+    </div>-->
     <div class="cart-fixed">
       <div class="cart-settlement">
         <div class="allcb">
