@@ -1,21 +1,24 @@
 <template>
   <div class="order order-wrap">
-    <mt-header fixed title="填写订单">
+    <mt-header fixed title="确认下单">
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
     <div class="order-content">
       <section>
-        <h5>收货地址</h5>
-        <mt-field placeholder="填写收货地址" type="textarea" rows="4" v-model="orderInfo.address"></mt-field>
+        <h5>收货人姓名</h5>
+        <mt-field placeholder="填写收货人姓名" type="tel" v-model="orderInfo.receivername"></mt-field>
       </section>
       <section>
         <h5>收货人电话</h5>
         <mt-field placeholder="填写收货人电话" type="tel" v-model="orderInfo.phone"></mt-field>
       </section>
       <section>
-        <h5>商品列表</h5>
+        <h5>收货地址</h5>
+        <mt-field placeholder="填写收货地址" type="textarea" rows="4" v-model="orderInfo.address"></mt-field>
+      </section>
+      <section>
         <div class="cart-area">
           <div class="cart-list">
             <!-- 购物车商品列表 -->
@@ -45,7 +48,7 @@
                             </p>
                           </div>
                         </div>
-                        <div class="edit-quantity">
+                        <!-- <div class="edit-quantity">
                           <p class="btn-minus" @click.prevent="changeGoodCount(good, 'minus')">
                             <a class="sbtn minus off">
                               <icon name="minus"></icon>
@@ -63,7 +66,7 @@
                               <icon name="plus"></icon>
                             </a>
                           </p>
-                        </div>
+                        </div>-->
                       </div>
                     </div>
                   </div>
@@ -73,10 +76,30 @@
           </div>
         </div>
       </section>
+      <section>
+        <div class="order-info">
+          <span>支付方式</span>
+          <h5>在线支付</h5>
+        </div>
+        <div class="order-info">
+          <span>配送方式</span>
+          <h5>快递配送</h5>
+        </div>
+      </section>
+      <section>
+        <div class="order-info price">
+          <span>商品总额</span>
+          <h5>￥{{getPrice(orderInfo)}}</h5>
+        </div>
+        <div class="order-info">
+          <span>运费</span>
+          <h5>￥0.00</h5>
+        </div>
+      </section>
     </div>
     <div class="order-footer">
-      <h5 class="order-total-price">￥{{orderInfo.amount}}</h5>
-      <button class="bottom-bar-btn buy" @click="handleSubmitOrder()">提交订单</button>
+      <h5 class="order-total-price">合计：￥{{orderInfo.amount}}</h5>
+      <button class="bottom-bar-btn buy" @click="handleSubmitOrder()">确认下单</button>
     </div>
   </div>
 </template>
@@ -113,6 +136,12 @@ export default class Order extends Vue {
   getThumb(good: StoreState.Goods) {
     if (good && good.imgs) {
       return good.imgs[0].url;
+    }
+  }
+
+  getPrice(orderInfo: any) {
+    if (orderInfo.goods && orderInfo.goods.length > 0) {
+      return orderInfo.goods[0].purchasePrice;
     }
   }
 
@@ -214,6 +243,19 @@ export default class Order extends Vue {
     }
     .mint-cell-title {
       width: 50px;
+    }
+
+    .order-info {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      span {
+        font-size: 20px;
+      }
+
+      &.price > h5 {
+        color: #ff7a00;
+      }
     }
   }
 
