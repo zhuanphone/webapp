@@ -98,7 +98,7 @@
       </section>
     </div>
     <div class="order-footer">
-      <h5 class="order-total-price">合计：￥{{orderInfo.amount}}</h5>
+      <h5 class="order-total-price">合计：￥{{toFixed(orderInfo.amount)}}</h5>
       <button class="bottom-bar-btn buy" @click="handleSubmitOrder()">确认下单</button>
     </div>
   </div>
@@ -141,7 +141,16 @@ export default class Order extends Vue {
 
   getPrice(orderInfo: any) {
     if (orderInfo.goods && orderInfo.goods.length > 0) {
-      return orderInfo.goods[0].purchasePrice;
+      return orderInfo.goods[0].purchasePrice.toFixed(2);
+    }
+  }
+
+  toFixed(num: number) {
+    console.log('num.toFixed(2): ', num.toFixed(2));
+    if (num) {
+      return num.toFixed(2);
+    } else {
+      return 0;
     }
   }
 
@@ -217,7 +226,7 @@ export default class Order extends Vue {
   min-height: 100vh;
   background: #f5f5f5;
   padding-top: 110px;
-  padding-bottom: 50px;
+  padding-bottom: 100px;
 
   .mint-header {
     height: 90px;
@@ -269,7 +278,6 @@ export default class Order extends Vue {
     justify-content: space-between;
 
     h5 {
-      width: 40%;
       line-height: 80px;
       height: 80px;
       font-size: 40px;
