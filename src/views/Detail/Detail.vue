@@ -32,10 +32,10 @@
     <!-- 价格 -->
     <div class="goods-name">
       <p class="goods-name-text">{{ goodInfo.name }}</p>
-      <p class="goods-sales">
+      <!-- <p class="goods-sales">
         总销
         <span>{{ goodInfo.saleCount }}</span>笔
-      </p>
+      </p>-->
     </div>
     <!-- 其他信息 -->
     <!-- <div class="goods-text">
@@ -44,12 +44,16 @@
       <p class="goods-evaluation">评价{{ 3 }}条</p>
     </div>-->
     <div class="goods-gary"></div>
-    <div class="goods-detail-desc">
-      <p class="detail-desc-title">
-        <span>详情</span>
-      </p>
+    <section>
+      <h5>评估报告</h5>
+      <div class="detais" v-for="(value, key , i) in goodInfo.properties" :key="i">
+        <mt-cell :title="getKey(key)" :value="value"></mt-cell>
+      </div>
+    </section>
+    <section class="goods-detail-desc">
+      <h5>描述</h5>
       <div class="detail-desc-body" v-html="goodInfo.desc"></div>
-    </div>
+    </section>
     <div class="bottom-bar">
       <div class="bottom-bar-btn buy" @click="buyNow()">
         <span class="btn-title">立即购买</span>
@@ -92,7 +96,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
 
 import 'mint-ui/lib/popup/style.css';
-import { Popup, Header, Button, Field } from 'mint-ui';
+import { Popup, Header, Button, Field, Cell } from 'mint-ui';
 
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
@@ -102,6 +106,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper';
     [Header.name]: Header,
     [Button.name]: Button,
     [Popup.name]: Popup,
+    [Cell.name]: Cell,
     swiper,
     swiperSlide,
   },
@@ -180,6 +185,25 @@ export default class Detail extends Vue {
 
   goToChartPage() {
     this.$router.push('/cart');
+  }
+
+  getKey(key: string): string {
+    const keyMap: { [key: string]: string } = {
+      model: ' 型号',
+      color: ' 颜色',
+      capacity: ' 容量',
+      release: ' 发行版本',
+      network: ' 手机网络',
+      quality: ' 成色',
+      warranty: ' 保修',
+      borderShell: ' 边框外壳',
+      screen: ' 屏幕',
+      maintainHistory: ' 维修拆机史',
+      account: ' 账号密码',
+      funcProblem: ' 功能性问题',
+    };
+
+    return keyMap[key];
   }
 }
 </script>
@@ -263,6 +287,14 @@ export default class Detail extends Vue {
   height: calc(100% + 500px);
   padding-top: 90px;
   padding-bottom: 90px;
+
+  section {
+    h5 {
+      padding-left: 10px;
+      margin: 10px 0;
+    }
+    padding: 10px;
+  }
 
   .mint-header {
     height: 90px;
@@ -452,10 +484,10 @@ export default class Detail extends Vue {
 
   .detail-desc-body {
     overflow: hidden;
-    text-indent: 20px;
     letter-spacing: 1px;
-    padding: 20px;
+    padding: 10px;
     line-height: 40px;
+    font-size: 30px;
     img {
       display: block;
       max-width: 100%;

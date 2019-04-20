@@ -19,6 +19,9 @@ export const state: OrderState = {
 
 const mutations: MutationTree<any> = {
   [TYPES.ADD_TO_ORDER](state, data): void {
+    if (state.orderInfo.goods.find((good: StoreState.Goods) => good._id === data._id)) {
+      return
+    }
     state.orderInfo.goods.push({ ...data, count: 1 })
   },
 

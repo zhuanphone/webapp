@@ -30,6 +30,7 @@ export default {
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:5000/api/v1'
         // ? 'http://192.168.1.103:5000/api/v1'
+        // ? 'http://www.zhuanzhuancn.com:5000/api/v1'
         : '/api/v1',
   },
 };
