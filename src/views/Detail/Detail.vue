@@ -31,7 +31,7 @@
     </div>
     <!-- 价格 -->
     <div class="goods-name">
-      <p class="goods-name-text">{{ goodInfo.name }}</p>
+      <p class="goods-name-text">{{ goodInfo.title }}</p>
       <!-- <p class="goods-sales">
         总销
         <span>{{ goodInfo.saleCount }}</span>笔

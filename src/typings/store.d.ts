@@ -55,12 +55,19 @@ declare namespace StoreState {
     name: string;
   }
 
+  export enum GoodPostState {
+    Shipping = '包邮',
+    Pay = "到付",
+  }
+
   // 商品类型
   export interface Goods {
     _id: string;
-    brand: string;
-    name: string;
+    type: String; // Phone, Watch, Other
+    title: string;
     desc: string;
+    postage: string; // 运费
+    createdAt: string;
     coverImg: string;
     imgs: GoodImg[];
     originPrice: number;
@@ -82,18 +89,23 @@ declare namespace StoreState {
     icon: string;
   }
 
-  export interface GoodsLink {
-    id: string;
+  export interface OrderGood {
+    good: Goods;
     count: number;
   }
 
-  type GoodsInOrder = Goods & GoodsLink
-
   // 订单信息
   export interface OrderInfo {
-    deliveryAddr: string; // 发送地址
-    amount: number; // 订单总金额
-    userId: string; // 关联用户
-    goods: GoodsInOrder[] // 包含商品
+    serialNum: string; // 订单号
+    receiverAddress: string; // 收货地址
+    receiverPhone: number | null; // 收货人电话
+    receiverName: string; // 收货人姓名
+    createdAt: string; // 订单创建日期
+    completedAt: string; // 订单完成时间
+    total: number; // 订单总金额
+    adjustmentTotal: number; // 邮费和其他费用
+    state: string; // 订单状态
+    paymentState: string; // 支付状态
+    releatedGoods: OrderGood[] // 包含商品
   }
 }

@@ -7,7 +7,7 @@
             <div class="good-img">
               <img class="lazy-img-fadein" v-lazy="getThumb(good)">
             </div>
-            <p class="good-text">{{ good.name }}</p>
+            <p class="good-text">{{ good.title }}</p>
             <div class="good-price">
               <span class="price">¥{{ good.purchasePrice }}</span>
               <div class="good-tags">

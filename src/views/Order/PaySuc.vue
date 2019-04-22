@@ -43,11 +43,8 @@ export default class PaySuc extends Vue {
   submitOrder: any;
 
   private handleSubmit() {
-    const goods = this.orderInfo.goods as StoreState.GoodsInOrder[];
-    this.orderInfo.goods = goods.map(good => ({
-      id: good._id,
-      count: good.count,
-    }));
+    const goods = this.orderInfo.goods as StoreState.OrderGood[];
+
     this.submitOrder(this.orderInfo);
   }
 }

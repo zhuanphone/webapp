@@ -8,43 +8,43 @@
     <div class="order-content">
       <section>
         <h5>收货人姓名</h5>
-        <mt-field placeholder="填写收货人姓名" type="tel" v-model="orderInfo.receivername"></mt-field>
+        <mt-field placeholder="填写收货人姓名" type="tel" v-model="orderInfo.receiverName"></mt-field>
       </section>
       <section>
         <h5>收货人电话</h5>
-        <mt-field placeholder="填写收货人电话" type="tel" v-model="orderInfo.phone"></mt-field>
+        <mt-field placeholder="填写收货人电话" type="tel" v-model="orderInfo.receiverPhone"></mt-field>
       </section>
       <section>
         <h5>收货地址</h5>
-        <mt-field placeholder="填写收货地址" type="textarea" rows="4" v-model="orderInfo.address"></mt-field>
+        <mt-field placeholder="填写收货地址" type="textarea" rows="4" v-model="orderInfo.receiverAddress"></mt-field>
       </section>
       <section>
         <div class="cart-area">
           <div class="cart-list">
             <!-- 购物车商品列表 -->
             <div
-              v-if="orderInfo.goods"
+              v-if="orderInfo.releatedGoods"
               class="cart-item"
-              v-for="good in orderInfo.goods"
-              :key="good.id"
+              v-for="relgood in orderInfo.releatedGoods"
+              :key="relgood.good._id"
             >
               <div class="cart-item-box">
                 <div class="item-detail">
                   <div>
                     <div class="item-img">
                       <a>
-                        <img :src="getThumb(good)">
+                        <img :src="getThumb(relgood)">
                       </a>
                     </div>
                     <div class="item-info">
                       <a href="">
-                        <h3 class="title">{{ good.name }}</h3>
+                        <h3 class="title">{{ relgood.good.title }}</h3>
                       </a>
                       <div class="pay">
                         <div class="pay-price">
                           <div class="price">
                             <p class="o-t-price">
-                              <span class="major">{{ good.purchasePrice }}</span>
+                              <span class="major">{{ relgood.good.purchasePrice }}</span>
                             </p>
                           </div>
                         </div>
@@ -93,12 +93,12 @@
         </div>
         <div class="order-info">
           <span>运费</span>
-          <h5>￥0.00</h5>
+          <h5>{{getPostage(orderInfo)}}</h5>
         </div>
       </section>
     </div>
     <div class="order-footer">
-      <h5 class="order-total-price">合计：￥{{toFixed(orderInfo.amount)}}</h5>
+      <h5 class="order-total-price">合计：￥{{toFixed(orderInfo.total)}}</h5>
       <button class="bottom-bar-btn buy" @click="handleSubmitOrder()">确认下单</button>
     </div>
   </div>
@@ -125,28 +125,40 @@ export default class Order extends Vue {
   @Getter('currentUser', { namespace: 'auth' })
   currentUser: any;
 
-  // get orderAmount() {
-  //   const ret = (this.orderInfo.goods as any[]).reduce(function(ret, cur) {
-  //     return ret + cur.originPrice;
-  //   }, 0);
-
-  //   return ret.toFixed(2);
-  // }
-
-  getThumb(good: StoreState.Goods) {
-    if (good && good.imgs) {
-      return good.imgs[0].url;
+  getThumb(item: StoreState.OrderGood) {
+    if (this.orderInfo.coverImg) {
+      return this.orderInfo.coverImg;
+    }
+    if (item.good && item.good.imgs) {
+      return item.good.imgs[0].url;
     }
   }
 
   getPrice(orderInfo: any) {
-    if (orderInfo.goods && orderInfo.goods.length > 0) {
-      return orderInfo.goods[0].purchasePrice.toFixed(2);
+    if (orderInfo.releatedGoods && orderInfo.releatedGoods.length > 0) {
+      return orderInfo.releatedGoods[0].good.purchasePrice.toFixed(2);
+    }
+  }
+
+  getPostage(orderInfo: any) {
+    console.log('orderInfo: ', orderInfo);
+    if (!orderInfo.releatedGoods.length) {
+      return;
+    }
+    const postage = orderInfo.releatedGoods[0].good.postage;
+    console.log('postage: ', postage);
+    const postageMap: { [key: string]: string } = {
+      SHIPPING: '包邮',
+      PAY: '到付',
+    };
+    if (postage === 'SHIPPING' || postage === 'PAY') {
+      return postageMap[postage];
+    } else {
+      return `￥ ${parseInt(postage)}`;
     }
   }
 
   toFixed(num: number) {
-    console.log('num.toFixed(2): ', num.toFixed(2));
     if (num) {
       return num.toFixed(2);
     } else {
@@ -157,7 +169,7 @@ export default class Order extends Vue {
   @Action('order/changeOrderGood')
   changeOrderGood: any;
 
-  private changeGoodCount(good: StoreState.GoodsInOrder, action: string) {
+  private changeGoodCount(good: StoreState.OrderGood, action: string) {
     console.log('good: ', good);
     switch (action) {
       case 'minus':
@@ -176,37 +188,33 @@ export default class Order extends Vue {
   submitOrder: any;
 
   private handleSubmitOrder() {
-    if (!this.orderInfo.address) {
+    if (!this.orderInfo.receiverName) {
+      Toast({
+        message: '收货人姓名不能为空！',
+      });
+      return;
+    }
+
+    if (!this.orderInfo.receiverAddress) {
       Toast({
         message: '收货地址不能为空！',
       });
       return;
     }
 
-    if (!this.orderInfo.phone) {
+    if (!this.orderInfo.receiverPhone) {
       Toast({
         message: '收货人手机号不能为空！',
       });
       return;
     }
 
-    if (!checkPhoneNumber(this.orderInfo.phone)) {
+    if (!checkPhoneNumber(this.orderInfo.receiverPhone)) {
       Toast({
         message: '手机号格式不正确！',
       });
       return;
     }
-
-    const goods = this.orderInfo.goods as StoreState.GoodsInOrder[];
-    this.orderInfo.goods = goods.map(good => ({
-      id: good._id,
-      count: good.count,
-    }));
-
-    // this.orderInfo.userId = this.currentUser._id;
-    this.orderInfo.amount = goods.reduce(function(ret, cur) {
-      return cur.purchasePrice + ret;
-    }, 0);
 
     this.submitOrder(this.orderInfo).then((res: StoreState.ResponseData) => {
       if (res.status === 201) {
