@@ -5,7 +5,7 @@
         <router-link :to="'/detail/' + good._id">
           <div class="good-product">
             <div class="good-img">
-              <img class="lazy-img-fadein" v-lazy="getThumb(good)">
+              <img class="lazy-img-fadein" :src="getThumb(good)">
             </div>
             <p class="good-text">{{ good.title }}</p>
             <div class="good-price">
