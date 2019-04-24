@@ -106,13 +106,14 @@ export default class GoodsList extends Vue {
         }
 
         .good-tags > span {
-          background-color: rgba(136, 220, 135, 0.5);
+          background-color: rgba(234, 248, 244, 0.8);
           border-radius: 5px;
           display: inline-block;
-          font-size: 20px;
-          padding: 2px 5px;
+          font-size: 24px;
+          padding: 5px 10px;
+          line-height: 34px;
           margin-left: 5px;
-          color: #355d34;
+          color: #72ccb2;
         }
       }
     }

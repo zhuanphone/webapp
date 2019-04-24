@@ -228,6 +228,30 @@ export default class Order extends Vue {
 }
 </script>
 
+<style lang="scss">
+header.mint-header {
+  .mintui {
+    font-size: 30px;
+  }
+  .mint-header-title {
+    font-size: 30px;
+  }
+}
+
+.mint-cell-wrapper {
+  padding: 0;
+}
+
+.mint-cell-value {
+  font-size: 30px;
+}
+
+.mint-toast {
+  span {
+    font-size: 30px;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .order-wrap {
@@ -238,7 +262,7 @@ export default class Order extends Vue {
 
   .mint-header {
     height: 90px;
-    background-color: #f7624f;
+    background-color: #ff5556;
   }
 
   .order-content {
@@ -267,7 +291,7 @@ export default class Order extends Vue {
       display: flex;
       justify-content: space-between;
       span {
-        font-size: 20px;
+        font-size: 26px;
       }
 
       &.price > h5 {
@@ -288,8 +312,7 @@ export default class Order extends Vue {
     h5 {
       line-height: 80px;
       height: 80px;
-      font-size: 40px;
-      color: #ff7a00;
+      font-size: 30px;
     }
   }
 
@@ -306,9 +329,8 @@ export default class Order extends Vue {
   }
 
   .buy {
-    border-radius: 0 4px 4px 0;
-    background-image: -webkit-linear-gradient(left, #ff7a00, #fe560a);
-    background-image: linear-gradient(to right, #ff7a00, #fe560a);
+    background-color: #ff5556;
+    border-radius: 5px;
   }
 
   .cart-item {

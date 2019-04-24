@@ -67,11 +67,23 @@ export default class Home extends Vue {
 }
 </script>
 
+<style lang="scss">
+header.mint-header {
+  .mintui {
+    font-size: 30px;
+  }
+  .mint-header-title {
+    font-size: 30px;
+  }
+}
+</style>
+
+
 <style lang="scss" scoped>
 .home {
   .mint-header {
     height: 90px;
-    background-color: #f7624f;
+    background-color: #ff5556;
   }
 
   .guess-like-wrap {

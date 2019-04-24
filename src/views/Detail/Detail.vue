@@ -5,21 +5,31 @@
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
+    <div class="detail-header">
+      <div class="detail-header__user">
+        <img src="../../assets/images/ego.png" alt="">
+        <span>转转手机优品店</span>
+      </div>
+      <div class="detail-header__price">
+        <i>￥</i>
+        <h5>{{goodInfo.purchasePrice}}</h5>
+        <span>{{getPostage(goodInfo.postage)}}</span>
+      </div>
+      <h1 class="detail-header__title">{{goodInfo.title}}</h1>
+    </div>
     <!-- 图片 -->
-    <div :class="[isFullScreen ? 'siema-wrapper' : '', 'goods-swiper']">
+    <!-- <div :class="[isFullScreen ? 'siema-wrapper' : '', 'goods-swiper']">
       <swiper :options="swiperOption">
-        <!-- slides -->
         <swiper-slide v-for="item in goodInfo.imgs" :key="item.uid">
           <div class="img-wrapper">
             <img :src="item.url" @click.prevent="openGoodsSwiper">
           </div>
         </swiper-slide>
-        <!-- Optional controls -->
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
-    </div>
+    </div>-->
     <!-- 价格 -->
-    <div class="goods-price">
+    <!-- <div class="goods-price">
       <p class="goods-sales-price">
         现价：¥
         <em>{{ goodInfo.purchasePrice }}</em>
@@ -28,15 +38,11 @@
         原价：￥
         <del>{{ goodInfo.originPrice }}</del>
       </p>
-    </div>
+    </div>-->
     <!-- 价格 -->
-    <div class="goods-name">
+    <!-- <div class="goods-name">
       <p class="goods-name-text">{{ goodInfo.title }}</p>
-      <!-- <p class="goods-sales">
-        总销
-        <span>{{ goodInfo.saleCount }}</span>笔
-      </p>-->
-    </div>
+    </div>-->
     <!-- 其他信息 -->
     <!-- <div class="goods-text">
       <p class="goods-express">快递：{{ 1 }}</p>
@@ -44,15 +50,91 @@
       <p class="goods-evaluation">评价{{ 3 }}条</p>
     </div>-->
     <div class="goods-gary"></div>
-    <section>
-      <h5>评估报告</h5>
-      <div class="detais" v-for="(value, key , i) in goodInfo.properties" :key="i">
-        <mt-cell :title="getKey(key)" :value="value"></mt-cell>
+    <section class="detail-body">
+      <h5>
+        <span class="detail-body__title-quto"></span>
+        商品详情
+      </h5>
+      <div class="detail-body__info">
+        <div class="detail-body__info-item">
+          <label for="">颜色：</label>
+          <span>{{goodInfo.properties.color}}</span>
+        </div>
+        <div class="detail-body__info-item">
+          <label for="">容量：</label>
+          <span>{{goodInfo.properties.capacity}}</span>
+        </div>
+        <div class="detail-body__info-item">
+          <label for="">发行版本：</label>
+          <span>{{goodInfo.properties.release}}</span>
+        </div>
+        <div class="detail-body__info-item">
+          <label for="">成色：</label>
+          <span>{{goodInfo.properties.quality}}</span>
+        </div>
+        <div class="detail-desc-body" v-html="goodInfo.desc"></div>
+        <div class="detail-body__properties">
+          <h4>产品介绍：</h4>
+          <div class="detail-body__properties-container">
+            <div class="detail-body__properties-item">
+              <span>[型号]：</span>
+              <span>{{goodInfo.properties.model}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[版本]：</span>
+              <span>{{goodInfo.properties.release}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[手机网络]：</span>
+              <span>{{goodInfo.properties.network}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[内存]：</span>
+              <span>{{goodInfo.properties.capacity}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[网络]：</span>
+              <span>{{goodInfo.properties.network}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[颜色]：</span>
+              <span>{{goodInfo.properties.color}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[屏幕]：</span>
+              <span>{{goodInfo.properties.screen}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[成色]：</span>
+              <span>{{goodInfo.properties.quality}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[边框外壳]：</span>
+              <span>{{goodInfo.properties.borderShell}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[维修历史]：</span>
+              <span>{{goodInfo.properties.maintainHistory}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[账号密码]：</span>
+              <span>{{goodInfo.properties.account}}</span>
+            </div>
+            <div class="detail-body__properties-item">
+              <span>[功能性问题]：</span>
+              <span>{{goodInfo.properties.funcProblem}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-body__imgs">
+          <div v-for="item in goodInfo.imgs" :key="item.uid">
+            <img :src="item.url">
+          </div>
+        </div>
       </div>
-    </section>
-    <section class="goods-detail-desc">
-      <h5>描述</h5>
-      <div class="detail-desc-body" v-html="goodInfo.desc"></div>
+      <!-- <div class="detais" v-for="(value, key , i) in goodInfo.properties" :key="i">
+        <mt-cell :title="getKey(key)" :value="value"></mt-cell>
+      </div>-->
     </section>
     <div class="bottom-bar">
       <div class="bottom-bar-btn buy" @click="buyNow()">
@@ -159,6 +241,18 @@ export default class Detail extends Vue {
     return grade[Math.floor(score)];
   }
 
+  getPostage(value: any) {
+    const postageMap: { [key: string]: string } = {
+      SHIPPING: '包邮',
+      PAY: '到付',
+    };
+    if (typeof parseInt(value) === 'number' && parseInt(value) > 0) {
+      return `￥${value}`;
+    } else {
+      return postageMap[value];
+    }
+  }
+
   openGoodsSwiper() {
     this.isFullScreen = !this.isFullScreen;
     this.isFullScreen
@@ -214,6 +308,15 @@ export default class Detail extends Vue {
   overflow: hidden;
 }
 
+header.mint-header {
+  .mintui {
+    font-size: 30px;
+  }
+  .mint-header-title {
+    font-size: 30px;
+  }
+}
+
 .swiper-container {
   width: 100%;
   height: 100%;
@@ -267,6 +370,111 @@ export default class Detail extends Vue {
 }
 </style>
 <style lang="scss" scoped>
+.detail-header__user {
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 80px;
+    object-fit: contain;
+  }
+
+  span {
+    font-size: 30px;
+    margin-left: 20px;
+  }
+}
+
+.detail-header__price {
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin-top: 40px;
+  i {
+    color: #ff5556;
+    font-size: 22px;
+    font-style: normal;
+  }
+  h5 {
+    margin-right: 12px;
+    color: #ff5556;
+    font-size: 40px;
+  }
+
+  span {
+    margin-left: 10px;
+    color: #98989b;
+    font-size: 26px;
+  }
+}
+
+.detail-header__title {
+  text-indent: 8px;
+  font-size: 40px;
+  font-weight: normal;
+  padding-left: 20px;
+  margin-top: 40px;
+}
+
+.detail-body {
+  .detail-body__title-quto {
+    display: inline-block;
+    width: 10px;
+    height: 40px;
+    margin-right: 12px;
+
+    border-radius: 10px;
+    background-color: #ff5556;
+  }
+  h5 {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+
+.detail-body__info {
+  .detail-body__info-item {
+    display: inline-block;
+    width: 50%;
+    margin-bottom: 30px;
+
+    label {
+      color: #9f9f9f;
+    }
+  }
+}
+
+.detail-body__properties {
+  margin-top: 80px;
+
+  h4 {
+    font-weight: normal;
+    margin-bottom: 20px;
+  }
+
+  .detail-body__properties-item {
+    margin-bottom: 22px;
+  }
+}
+
+.detail-body__imgs {
+  width: 100%;
+
+  img {
+    width: 100%;
+    border-radius: 10px;
+  }
+}
+
 .goods-swiper {
   overflow: hidden;
   width: 100vw;
@@ -290,15 +498,15 @@ export default class Detail extends Vue {
 
   section {
     h5 {
-      padding-left: 10px;
-      margin: 10px 0;
+      margin-bottom: 50px;
     }
-    padding: 10px;
+    padding: 60px 20px 0 20px;
   }
 
   .mint-header {
     height: 90px;
-    background-color: #f7624f;
+    background-color: #ffffff;
+    color: #000;
   }
 
   .mint-header.is-fixed {
@@ -309,7 +517,7 @@ export default class Detail extends Vue {
     overflow: hidden;
     width: 100%;
     height: 20px;
-    background-color: #f5f5f5;
+    background-color: #f8f8f8;
     position: relative;
   }
   .goods-price {
@@ -587,9 +795,8 @@ export default class Detail extends Vue {
   }
 
   .buy {
-    border-radius: 0 4px 4px 0;
-    background-image: -webkit-linear-gradient(left, #ff7a00, #fe560a);
-    background-image: linear-gradient(to right, #ff7a00, #fe560a);
+    // border-radius: 5px;
+    background-color: #ff5556;
   }
 }
 

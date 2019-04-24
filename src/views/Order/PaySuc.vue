@@ -50,6 +50,30 @@ export default class PaySuc extends Vue {
 }
 </script>
 
+<style lang="scss">
+header.mint-header {
+  .mintui {
+    font-size: 30px;
+  }
+  .mint-header-title {
+    font-size: 30px;
+  }
+}
+
+.mint-cell-wrapper {
+  padding: 0;
+}
+
+.mint-cell-value {
+  font-size: 30px;
+}
+
+.mint-toast {
+  span {
+    font-size: 30px;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .order-wrap {
