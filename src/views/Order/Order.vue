@@ -8,7 +8,7 @@
     <div class="order-content">
       <section>
         <h5>收货人姓名</h5>
-        <mt-field placeholder="填写收货人姓名" type="tel" v-model="orderInfo.receiverName"></mt-field>
+        <mt-field placeholder="填写收货人姓名" v-model="orderInfo.receiverName"></mt-field>
       </section>
       <section>
         <h5>收货人电话</h5>
